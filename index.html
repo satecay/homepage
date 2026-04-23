@@ -1,20 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Creative Space</title>
+
 <style>
-/* ====== CẤU HÌNH CƠ BẢN ====== */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
 
-body, html {
+/* ===== BASE ===== */
+body {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
   font-family: 'Montserrat', sans-serif;
-
-  /* Base dark */
   background: #0b0f1a;
-  overflow-x: hidden;
+  color: #fff;
 }
 
-/* ===== LỚP GRADIENT CINEMATIC ===== */
+/* ===== BACKGROUND ===== */
 body::before {
   content: "";
   position: fixed;
@@ -22,112 +24,85 @@ body::before {
   z-index: -2;
 
   background:
-    radial-gradient(circle at 20% 30%, rgba(0, 102, 255, 0.35), transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(255, 80, 0, 0.25), transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(140, 0, 255, 0.25), transparent 60%),
-    linear-gradient(120deg, #0b0f1a, #0f172a 40%, #1e293b);
+    radial-gradient(circle at 20% 30%, rgba(0,102,255,0.3), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,80,0,0.2), transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(140,0,255,0.2), transparent 60%);
 
-  filter: blur(60px);
+  filter: blur(80px);
 }
 
-/* ===== NOISE TEXTURE (film grain) ===== */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
 
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-
-  opacity: 0.4;
-  mix-blend-mode: overlay;
-
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
+/* ===== CONTAINER ===== */
+.section {
+  max-width: 1200px;
+  margin: auto;
+  padding: 60px 20px;
 }
 
-/* ====== HEADER ====== */
-.header-text {
+/* ===== HERO ===== */
+.hero {
   text-align: center;
-  color: white;
-  margin-bottom: 40px; /* Giảm khoảng cách để nhường chỗ cho Link */
-  text-shadow: 0 2px 10px rgba(0,0,0,0.8); 
+  padding-top: 100px;
 }
 
-.header-text h1 {
-  font-size: 42px;
-  font-weight: 800;
-  margin: 0 0 10px 0;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
-
-.header-text p {
-  font-size: 16px;
-  color: #e0e0e0;
+.hero h1 {
+  font-size: 48px;
   margin: 0;
+  text-shadow: 0 0 30px rgba(0,150,255,0.3);
 }
 
-/* ====== NEW: HÀNG LINK MENU ====== */
-.quick-links {
-  display: flex;
-  gap: 15px; /* Khoảng cách giữa các nút */
-  margin-bottom: 150px; /* Khoảng cách xuống hàng Card */
-  flex-wrap: wrap;
-  justify-content: center;
-  z-index: 10;
+.hero p {
+  color: #aaa;
+  margin-top: 10px;
 }
 
+/* ===== BUTTON ===== */
 .pill-btn {
-  text-decoration: none;
+  display: inline-block;
+  margin: 8px;
+  padding: 10px 22px;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
   color: #fff;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 8px 24px;
-  border-radius: 50px; /* Bo tròn kiểu viên thuốc */
-  border: 1px solid rgba(255,255,255,0.4);
-  background: rgba(0,0,0,0.2); /* Nền tối nhẹ cho dễ đọc */
-  transition: all 0.3s ease;
-  backdrop-filter: blur(4px);
+  text-decoration: none;
+  transition: 0.3s;
 }
 
 .pill-btn:hover {
-  background: #fff;
-  color: #000; /* Hover vào thì chữ đen nền trắng */
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  background: linear-gradient(135deg,#00c6ff,#0072ff);
+  box-shadow: 0 0 20px rgba(0,150,255,0.5);
 }
 
-/* ====== GRID CARD ====== */
-.grid-wrapper {
+/* ===== GRID ===== */
+.grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  width: 100%;
-  max-width: 1200px; 
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 25px;
+  margin-top: 40px;
 }
 
-/* ====== CARD DESIGN ====== */
+/* ===== CARD ===== */
 .card {
-  position: relative;
   height: 260px;
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.1); 
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(5px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  position: relative;
+
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
   transition: all 0.3s ease;
-  display: block; /* Để thẻ a bao trùm */ 
-  margin-bottom: 100px; /* Khoảng cách xuống hàng Card */ 
+
+  transition: 0.3s;
 }
 
 .card:hover {
@@ -144,14 +119,15 @@ body::after {
   display: block;
 }
 
-.card:hover img { transform: scale(1.1); }
+.card:hover img { transform: scale(1.1); } /* Zoom img khi hover */
 
 .card-content {
-  position: absolute; bottom: 0; left: 0; width: 100%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   padding: 15px;
-  box-sizing: border-box;
-  background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
-  color: white;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+color: white;
 }
 
 .card-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; }
@@ -160,48 +136,63 @@ body::after {
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-/* ====== NEW: HÀNG LINK MENU BOTTOM ====== */
-.quick-links-bottom {
-  display: flex;
-  gap: 15px; /* Khoảng cách giữa các nút */
-  margin-bottom: 50px; /* Khoảng cách xuống hàng Card */
-  flex-wrap: wrap;
-  justify-content: center;
-  z-index: 10;
+/* ===== SECTION TITLE ===== */
+.section-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
 }
 
-
-/* Responsive */
-@media (max-width: 800px) {
-  .grid-wrapper { grid-template-columns: repeat(2, 1fr); }
-  .header-text h1 { font-size: 28px; }
-}
-@media (max-width: 500px) {
-  .grid-wrapper { grid-template-columns: 1fr; }
-  .pill-btn { width: 100%; text-align: center; } /* Mobile nút full dòng */
+/* ===== FOOTER ===== */
+.footer {
+  margin-top: 60px;
+  padding: 40px 20px 30px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
 }
 
+/* hàng link */
+.footer-links {
+  margin-bottom: 20px;
+}
+
+.footer-links.secondary {
+  opacity: 0.7;
+}
+
+/* copyright */
+.footer-bottom {
+  margin-top: 20px;
+  font-size: 13px;
+  color: #888;
+}
 </style>
+</head>
 
-<div class="container">
-  
-  <div class="header-text">
-    <h1>AI Creative Space</h1>
-    <p>Trung tâm công cụ trí tuệ nhân tạo</p>
+<body>
+
+<!-- HERO -->
+<div class="section hero">
+  <h1>AI CREATIVE SPACE</h1>
+  <p>Trung tâm công cụ trí tuệ nhân tạo</p>
+
+  <div>
+        <a href="https://drive.google.com/drive/u/1/" target="_blank" class="pill-btn">Google Drive</a>
+        <a href="https://drive.google.com/drive/u/1/folders/1-wLTUBui0esKbn8HChHhEwZ1Gdj6xRjj" class="pill-btn">Bản tin SGT News</a>
+        <a href="https://drive.google.com/drive/u/1/folders/11QeAbZ6-oCko1XqY5qhSrmPOBDzzoTro" class="pill-btn">SHARE_TAM_STO </a>
+        <a href="https://drive.google.com/drive/u/1/folders/1VhAR39j1v4vz9tnrPFF9XNtpWUcVcW3m" class="pill-btn">SGT GROUP</a>  
+        <a href="https://thesaigontimes.vn/" class="pill-btn">thesaigontimes.vn</a> 
+        <a href="https://dzunglayout.github.io/porfolior25/" class="pill-btn">Porfolior</a> 
   </div>
+</div>
 
-  <div class="quick-links">
-    <a href="https://drive.google.com/drive/u/1/" target="_blank" class="pill-btn">Google Drive</a>
-    <a href="https://drive.google.com/drive/u/1/folders/1-wLTUBui0esKbn8HChHhEwZ1Gdj6xRjj" class="pill-btn">Bản tin SGT News</a>
-    <a href="https://drive.google.com/drive/u/1/folders/11QeAbZ6-oCko1XqY5qhSrmPOBDzzoTro" class="pill-btn">SHARE_TAM_STO </a>
-    <a href="https://drive.google.com/drive/u/1/folders/1VhAR39j1v4vz9tnrPFF9XNtpWUcVcW3m" class="pill-btn">SGT GROUP</a>  
- <a href="https://thesaigontimes.vn/" class="pill-btn">thesaigontimes.vn</a> 
- <a href="https://dzunglayout.github.io/porfolior25/" class="pill-btn">Porfolior</a> 
-  </div>
+<!-- GRID -->
+<div class="section">
+  <div class="grid">
 
-  <div class="grid-wrapper">
     <a href="https://aistudio.google.com/u/1/apps/drive/1tvyUkkYqxiHc0cxP1g-P0FrH36CLTWFG?showPreview=true&showAssistant=true&fullscreenApplet=true" target="_blank" class="card">
       <img src="https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/dc52593c-164d-4077-a355-1d9efc730290/anim=false,width=450,optimized=true/2024_01_15_19_21_IMG_0007.jpeg$0=2">
+
       <div class="card-content">
         <div class="card-title">AI Studio</div>
         <div class="card-desc">Chỉnh sửa ảnh PRO</div>
@@ -233,13 +224,47 @@ body::after {
     </a>
   </div>
 
-<div class="quick-links-bottom">
-<a href="https://gemini.google.com/app/bc26bffdbcdad8d8?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all" class="pill-btn">Gemini</a>
+<!-- TOOL SECTION -->
+<div class="section">
+  <div class="section-title">Công cụ AI</div>
+
+  <div style="text-align:center">
+    <a href="https://gemini.google.com/app/bc26bffdbcdad8d8?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all" class="pill-btn">Gemini</a>
     <a href="https://chatgpt.com/" class="pill-btn">ChatGPT</a>
     <a href="https://aistudio.google.com/u/1/generate-speech?model=gemini-3.1-flash-tts-preview" class="pill-btn">AI Studio</a>
     <a href="https://copilot.microsoft.com/" class="pill-btn">Copilot</a>  
- <a href="https://claude.ai/new" class="pill-btn">Claude</a> 
-<a href="https://labs.google/fx/tools/flow" class="pill-btn">Civ</a> 
-<a href="https://github.com/" class="pill-btn">Github</a>
-    </div>
+    <a href="https://claude.ai/new" class="pill-btn">Claude</a> 
+    <a href="https://labs.google/fx/tools/flow" class="pill-btn">Civ</a> 
+    <a href="https://github.com/" class="pill-btn">Github</a>
+  </div>
 </div>
+
+<!-- FOOTER -->
+<div class="footer">
+
+  <!-- Hàng link chính -->
+  <div class="footer-links">
+
+  </div>
+
+  <!-- Hàng link phụ -->
+  <div class="footer-links secondary">
+    <a href="https://mail.google.com/mail/u/1/#inbox" target="_blank" class="pill-btn">Google Mail</a>
+    <a href=https://mail.thesaigontimes.vn:2096/" class="pill-btn">SGT Mail</a>
+    <a href="https://www.google.com/maps/@10.7830823,106.7052683,15z?authuser=1&entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D" class="pill-btn">Map</a>
+    <a href="https://keep.google.com/u/1/" class="pill-btn">Keep</a>  
+ <a href="https://www.canva.com/" class="pill-btn">Canva</a> 
+<a href="https://www.youtube.com/" class="pill-btn">Youtube</a> 
+<a href="https://newsfilter-proxy.satecay.workers.dev/" class="pill-btn">News Filter</a>
+<a href="https://satecay.github.io/leave-manager-team/" class="pill-btn">Nghi phep</a>  
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-bottom">
+    © 2026 AI Creative Space • DzungLayout developed
+  </div>
+
+
+
+</body>
+</html>
