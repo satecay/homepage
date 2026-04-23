@@ -144,27 +144,82 @@ color: white;
 }
 
 /* ===== FOOTER ===== */
+/* ===== FOOTER BASE ===== */
 .footer {
   margin-top: 60px;
-  padding: 40px 20px 30px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 50px 20px 30px;
   text-align: center;
+  position: relative;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
 }
 
-/* hàng link */
-.footer-links {
-  margin-bottom: 20px;
+/* ===== GRADIENT GLOW NỀN (ANIMATION NHẸ) ===== */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background: radial-gradient(circle at 50% 100%, rgba(0,150,255,0.25), transparent 70%);
+  filter: blur(60px);
+
+  animation: glowMove 6s ease-in-out infinite alternate;
 }
 
-.footer-links.secondary {
-  opacity: 0.7;
+@keyframes glowMove {
+  0%   { transform: translateY(0px) scale(1); }
+  100% { transform: translateY(-20px) scale(1.1); }
 }
 
-/* copyright */
+/* ===== LINK BUTTON GLOW ===== */
+.footer .pill-btn {
+  transition: all 0.3s ease;
+}
+
+.footer .pill-btn:hover {
+  box-shadow:
+    0 0 10px rgba(0,150,255,0.6),
+    0 0 20px rgba(0,150,255,0.4),
+    0 0 40px rgba(0,150,255,0.3);
+}
+
+/* ===== FOOTER TEXT ===== */
 .footer-bottom {
-  margin-top: 20px;
+  margin-top: 25px;
   font-size: 13px;
   color: #888;
+}
+
+/* ===== LINK TEXT GLOW ===== */
+.footer-bottom a {
+color: #888;
+/* color: #fff; */
+  text-decoration: none;
+  position: relative;
+  transition: 0.3s;
+}
+
+.footer-bottom a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00c6ff, transparent);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.footer-bottom a:hover {
+  text-shadow:
+    0 0 8px rgba(0,150,255,0.8),
+    0 0 16px rgba(0,150,255,0.6);
+}
+
+.footer-bottom a:hover::after {
+  opacity: 1;
 }
 </style>
 </head>
@@ -174,6 +229,7 @@ color: white;
 <!-- HERO -->
 <div class="section hero">
   <h1>AI CREATIVE SPACE</h1>
+
   <p>Trung tâm công cụ trí tuệ nhân tạo</p>
 
   <div>
@@ -242,13 +298,7 @@ color: white;
 <!-- FOOTER -->
 <div class="footer">
 
-  <!-- Hàng link chính -->
   <div class="footer-links">
-
-  </div>
-
-  <!-- Hàng link phụ -->
-  <div class="footer-links secondary">
     <a href="https://mail.google.com/mail/u/1/#inbox" target="_blank" class="pill-btn">Google Mail</a>
     <a href=https://mail.thesaigontimes.vn:2096/" class="pill-btn">SGT Mail</a>
     <a href="https://www.google.com/maps/@10.7830823,106.7052683,15z?authuser=1&entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D" class="pill-btn">Map</a>
@@ -259,11 +309,15 @@ color: white;
 <a href="https://satecay.github.io/leave-manager-team/" class="pill-btn">Nghi phep</a>  
   </div>
 
-  <!-- Copyright -->
   <div class="footer-bottom">
-    © 2026 AI Creative Space • DzungLayout developed
+    © 2026 AI Creative Space
+  <a href="https://dzunglayout.github.io/porfolior25/" target="_blank" rel="noopener"> 
+
+    • Designed by Dzunglayout
+</a> 
   </div>
 
+</div>
 
 
 </body>
