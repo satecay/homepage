@@ -381,7 +381,7 @@ async function sha256(str) {
 
 let correctHash = "";
 
-fetch("/pass.txt")
+fetch("pass.txt")
   .then(res => res.text())
   .then(data => {
     correctHash = data.trim();
