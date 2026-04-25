@@ -372,7 +372,6 @@ fetch("https://api.open-meteo.com/v1/forecast?latitude=10.82&longitude=106.63&cu
     document.getElementById("temp").innerText = data.current_weather.temperature + "°C";
   });
 </script>
-/*
 
 <script>
 async function sha256(str) {
@@ -412,6 +411,8 @@ async function checkPass() {
 }
 }
 </script>  
+
+<!--- Decode password --->
 <script>
   async function sha256(str) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
