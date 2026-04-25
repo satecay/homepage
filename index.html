@@ -371,19 +371,7 @@ fetch("https://api.open-meteo.com/v1/forecast?latitude=10.82&longitude=106.63&cu
     document.getElementById("temp").innerText = data.current_weather.temperature + "°C";
   });
 </script>
-
-<script>
-function checkPass() {
-  const pass = document.getElementById("passInput").value;
-
-  if (pass === "123456") {
-    document.getElementById("lockedFooter").style.display = "block";
-    document.querySelector(".login-box").style.display = "none";
-  } else {
-    alert("Sai mật khẩu!");
-  }
-}
-</script>  
+/*
 
 <script>
 async function sha256(str) {
