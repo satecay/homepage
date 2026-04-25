@@ -395,20 +395,26 @@ let correctHash = "";
 
 fetch("pass.txt")
   .then(res => res.text())
-  .then(data => correctHash = data.trim());
+  .then(data => {
+    correctHash = data.trim();
+    console.log("Loaded hash:", correctHash);
+  });
 
 async function checkPass() {
+  if (!correctHash) {
+    alert("Chưa load xong dữ liệu!");
+    return;
+  }
+
   const input = document.getElementById("passInput").value;
   const hash = await sha256(input);
 
   if (hash === correctHash) {
     document.getElementById("lockedFooter").style.display = "block";
-    document.querySelector(".login-box").style.display = "none";
   } else {
-    alert("Sai mật khẩu!!!");
+    alert("Sai mật khẩu!");
   }
 }
 </script>  
-
 </body>
 </html>
