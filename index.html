@@ -393,7 +393,7 @@ async function sha256(str) {
 
 let correctHash = "";
 
-fetch("https://raw.githubusercontent.com/username/repo/main/pass.txt")
+fetch("pass.txt")
   .then(res => res.text())
   .then(data => correctHash = data.trim());
 
