@@ -401,6 +401,8 @@ async function checkPass() {
     document.getElementById("lockedFooter").style.display = "block";
   } else {
     alert("Sai mật khẩu!!!");
+      console.log("Input hash:", hash);
+console.log("Correct hash:", correctHash);
   }
 }
 </script>  
@@ -413,8 +415,7 @@ async function checkPass() {
 }
 
 sha256("123458").then(console.log);
-  console.log("Input hash:", hash);
-console.log("Correct hash:", correctHash);
+
 </script>
     
 </body>
