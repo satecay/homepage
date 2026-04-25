@@ -381,7 +381,7 @@ async function sha256(str) {
 
 let correctHash = "";
 
-fetch("pass.txt")
+fetch("/pass.txt")
   .then(res => res.text())
   .then(data => {
     correctHash = data.trim();
@@ -402,7 +402,7 @@ async function checkPass() {
   } else {
     alert("Sai mật khẩu!!!");
       console.log("Input hash:", hash);
-console.log("Correct hash:", correctHash);
+      console.log("Correct hash:", correctHash);
   }
 }
 </script>  
