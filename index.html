@@ -299,29 +299,12 @@ color: #888;
 </style>
 </head>
 
-<script>
-  const openBtn = document.getElementById("openLogin");
-const overlay = document.getElementById("loginOverlay");
-
-if (openBtn && overlay) {
-
-  openBtn.onclick = () => {
-    overlay.style.display = "flex";
-  };
-
-  overlay.onclick = (e) => {
-    if (e.target === overlay) {
-      overlay.style.display = "none";
-    }
-  };
-
-}
-  </script>
   
 <body>
 
 <!-- HERO -->
 
+  
 <div class="top-info">
   <div> <span id="clock"></span> • <span id="temp">--°C</span> <span id="greeting" class="greeting-text"> </span> </div>
   <div> <span id="date"> </span> </div>
@@ -396,10 +379,13 @@ if (openBtn && overlay) {
 
   
 <!-- CLOCK FOOTER -->
-<div id="loginBox" class="login-box">
+<div id="openLogin" class="key-btn">🔑</div>
+<div id="loginOverlay" style="display:none;">
+  
+<div id="loginBox" >
   <input type="password" id="passInput" placeholder="Nhập passcode">
   <button onclick="checkPass()"> Unlock </button>
-  <!--- <button onclick="checkPass()">Unlock</button> --->
+</div>  
 </div>
 <div id="lockedFooter" style="display:none;">
 <!-- FOOTER -->  
@@ -427,7 +413,7 @@ if (openBtn && overlay) {
 </div>
 </div>
 
-<div id="openLogin" class="key-btn">🔑</div>
+
 
 <script>
 function updateClock() {
@@ -534,6 +520,25 @@ async function checkPass() {
 sha256("123458").then(console.log);
 
 </script>
-    
+
+<!-- đặt trước </body> -->
+<script>
+const openBtn = document.getElementById("openLogin");
+const overlay = document.getElementById("loginOverlay");
+
+console.log(openBtn, overlay); // 👈 debug
+
+if (openBtn && overlay) {
+  openBtn.onclick = () => {
+    overlay.style.display = "flex";
+  };
+
+  overlay.onclick = (e) => {
+    if (e.target === overlay) {
+      overlay.style.display = "none";
+    }
+  };
+}
+</script>  
 </body>
 </html>
