@@ -299,6 +299,25 @@ color: #888;
 </style>
 </head>
 
+<script>
+  const openBtn = document.getElementById("openLogin");
+const overlay = document.getElementById("loginOverlay");
+
+if (openBtn && overlay) {
+
+  openBtn.onclick = () => {
+    overlay.style.display = "flex";
+  };
+
+  overlay.onclick = (e) => {
+    if (e.target === overlay) {
+      overlay.style.display = "none";
+    }
+  };
+
+}
+  </script>
+  
 <body>
 
 <!-- HERO -->
@@ -501,23 +520,7 @@ async function checkPass() {
 }
 </script>  
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
 
-  // mở popup
-  document.getElementById("openLogin").onclick = () => {
-    document.getElementById("loginOverlay").style.display = "flex";
-  };
-
-  // click ngoài để đóng
-  document.getElementById("loginOverlay").onclick = (e) => {
-    if (e.target.id === "loginOverlay") {
-      document.getElementById("loginOverlay").style.display = "none";
-    }
-  };
-
-});
-</script>
 
 <!--- Decode password --->
 <script>
