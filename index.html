@@ -570,7 +570,12 @@ if (openBtn && overlay) {
   setTimeout(() => {
     input.focus();
   }, 50);
-
+    
+  input.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    checkPass();
+  }
+});
 };
 
   overlay.onclick = (e) => {
