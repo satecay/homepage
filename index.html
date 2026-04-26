@@ -476,17 +476,7 @@ fetch("pass.txt")
     console.log("Loaded hash:", correctHash);
   });
 
-// mở popup
-document.getElementById("openLogin").onclick = () => {
-  document.getElementById("loginOverlay").style.display = "flex";
-};
 
-// click ngoài để đóng
-document.getElementById("loginOverlay").onclick = (e) => {
-  if (e.target.id === "loginOverlay") {
-    document.getElementById("loginOverlay").style.display = "none";
-  }
-};  
 
 async function checkPass() {
   if (!correctHash) {
@@ -510,6 +500,24 @@ async function checkPass() {
   }
 }
 </script>  
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // mở popup
+  document.getElementById("openLogin").onclick = () => {
+    document.getElementById("loginOverlay").style.display = "flex";
+  };
+
+  // click ngoài để đóng
+  document.getElementById("loginOverlay").onclick = (e) => {
+    if (e.target.id === "loginOverlay") {
+      document.getElementById("loginOverlay").style.display = "none";
+    }
+  };
+
+});
+</script>
 
 <!--- Decode password --->
 <script>
