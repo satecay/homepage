@@ -532,6 +532,8 @@ async function checkPass() {
      // 👉 đóng popup
     const overlay = document.getElementById("loginOverlay");
     overlay.style.display = "none";
+    
+    document.getElementById("openLogin").innerText = "🔓"; 
      
   } else {
     alert("Sai mật khẩu!");
