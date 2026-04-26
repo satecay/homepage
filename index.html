@@ -562,13 +562,14 @@ console.log(openBtn, overlay); // 👈 debug
 
 if (openBtn && overlay) {
   openBtn.onclick = () => {
-    overlay.style.display = "flex";
+  overlay.style.display = "flex";
 
-      // 👉 đặt con trỏ vào input
+  input.value = "";
+
   setTimeout(() => {
     input.focus();
   }, 50);
-  };
+};
 
   overlay.onclick = (e) => {
     if (e.target === overlay) {
