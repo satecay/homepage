@@ -258,8 +258,11 @@ color: #888;
   transition: opacity 0.3s ease;
 }
 
-.login-box input {
-  padding: 8px 12px;
+.loginBox input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+
   border-radius: 20px;
   border: none;
   outline: none;
@@ -411,7 +414,7 @@ color: #888;
   
 <div id="loginBox" >
   <input type="password" id="passInput" placeholder="Nhập passcode">
-  <button onclick="checkPass()"> Unlock </button>
+  <button class="pill-btn" onclick="checkPass()">Unlock</button>
 </div>  
 </div>
 <div id="lockedFooter" style="display:none;">
