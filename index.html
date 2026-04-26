@@ -529,6 +529,7 @@ async function checkPass() {
 
     // ✅ ẨN login box
     document.getElementById("loginBox").style.display = "none";
+     overlay.style.display = "none";
 
   } else {
     alert("Sai mật khẩu!");
@@ -559,7 +560,7 @@ const overlay = document.getElementById("loginOverlay");
 const input = document.getElementById("passInput");
 
 
-console.log(openBtn, overlay); // 👈 debug
+/* console.log(openBtn, overlay); // 👈 debug */
 
 if (openBtn && overlay) {
   openBtn.onclick = () => {
