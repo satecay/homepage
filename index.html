@@ -529,8 +529,10 @@ async function checkPass() {
 
     // ✅ ẨN login box
     document.getElementById("loginBox").style.display = "none";
-     overlay.style.display = "none";
-
+     // 👉 đóng popup
+    const overlay = document.getElementById("loginOverlay");
+    overlay.style.display = "none";
+     
   } else {
     alert("Sai mật khẩu!");
   }
