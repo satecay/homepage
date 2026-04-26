@@ -555,12 +555,19 @@ sha256("1111").then(console.log);
 <script>
 const openBtn = document.getElementById("openLogin");
 const overlay = document.getElementById("loginOverlay");
+const input = document.getElementById("passInput");
+
 
 console.log(openBtn, overlay); // 👈 debug
 
 if (openBtn && overlay) {
   openBtn.onclick = () => {
     overlay.style.display = "flex";
+
+      // 👉 đặt con trỏ vào input
+  setTimeout(() => {
+    input.focus();
+  }, 50);
   };
 
   overlay.onclick = (e) => {
