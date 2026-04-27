@@ -144,7 +144,6 @@ color: white;
   margin-bottom: 20px;
 }
 
-/* ===== FOOTER ===== */
 /* ===== FOOTER BASE ===== */
 .footer {
   margin-top: 60px;
@@ -188,7 +187,7 @@ color: white;
 /* ===== FOOTER TEXT ===== */
 .footer-bottom {
   margin-top: 25px;
-  font-size: 13px;
+  font-size: 11px;
   color: #888;
 }
 
@@ -328,8 +327,6 @@ color: #888;
   
 </style>
 </head>
-
-  
 <body>
 
 <!-- HERO -->
@@ -348,7 +345,8 @@ color: #888;
 
   <div>
         <a href="https://thesaigontimes.vn/" target="_blank" class="pill-btn">thesaigontimes.vn</a> 
-        <a href="https://newsfilter-proxy.satecay.workers.dev/" target="_blank" class="pill-btn">News Filter</a>        
+        <a href="https://newsfilter-proxy.satecay.workers.dev/" target="_blank" class="pill-btn">News Filter</a>     
+        <a href=" https://pro-trading-terminal-pudpz9huwuwsgpxt5j4hp9.streamlit.app/" target="_blank" class="pill-btn">News Filter</a>    
         <a href="https://dzunglayout.github.io/porfolior25/" target="_blank" class="pill-btn">Porfolior</a> 
   </div>
 </div>
@@ -456,18 +454,7 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 </script>
-<!---
-// ── CLOCK ─────────────────────────────────────────────────────────────────
-function updateClock() {
-  const now = new Date();
-  document.getElementById('clock').textContent =
-    now.toLocaleTimeString('vi-VN', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12: false });
-  document.getElementById('date').textContent =
-    now.toLocaleDateString('vi-VN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-}
-setInterval(updateClock, 1000);
-updateClock();
---->
+
 <script>
 function updateGreeting() {
   const hour = new Date().getHours();
