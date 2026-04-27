@@ -520,11 +520,16 @@ async function checkPass() {
     overlay.style.display = "none";
     
     document.getElementById("openLogin").innerText = "🔓"; 
+
+     // 👉 bắt đầu đếm giờ logout
+    startAutoLogout(); 
      
   } else {
     alert("Sai mật khẩu!");
   }
 }
+
+  
 </script>  
 
 
@@ -576,5 +581,57 @@ if (openBtn && overlay) {
   };
 }
 </script>  
+
+<script> // Biến global
+let logoutTimer;
+const TIMEOUT = 5 * 60 * 1000; // 5 phút (đổi tùy bạn)
+</script>
+
+<script> // Hàm start/reset timer
+function startAutoLogout() {
+  clearTimeout(logoutTimer);
+
+  logoutTimer = setTimeout(() => {
+    logout();
+  }, TIMEOUT);
+}
+</script>  
+
+<script> //Hàm logout
+function logout() {
+  // ẩn footer
+  document.getElementById("lockedFooter").style.display = "none";
+
+  // reset UI
+  document.getElementById("openLogin").innerText = "🔑";
+
+  alert("Hết phiên đăng nhập!");
+
+  // có thể mở lại popup nếu muốn
+  document.getElementById("loginOverlay").style.display = "flex";
+}
+</script>
+
+
+<script>  // Reset timer khi user hoạt động (RẤT QUAN TRỌNG)
+["click", "mousemove", "keypress", "scroll"].forEach(event => {
+  document.addEventListener(event, () => {
+    if (document.getElementById("lockedFooter").style.display === "block") {
+      startAutoLogout();
+    }
+  });
+});
+</script>  
+  
+<script>
+["click", "mousemove", "keypress", "scroll"].forEach(event => {
+  document.addEventListener(event, () => {
+    if (document.getElementById("lockedFooter").style.display === "block") {
+      startAutoLogout();
+    }
+  });
+});
+</script>
+  
 </body>
 </html>
