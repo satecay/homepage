@@ -599,16 +599,22 @@ function startAutoLogout() {
 
 <script> //Hàm logout
 function logout() {
+  const overlay = document.getElementById("loginOverlay");
+
+  // reset trạng thái
+  overlay.classList.remove("active");
+  overlay.style.display = "none";
+
   // ẩn footer
   document.getElementById("lockedFooter").style.display = "none";
 
-  // reset UI
+  // reset icon
   document.getElementById("openLogin").innerText = "🔑";
 
-  alert("Hết phiên đăng nhập!");
-
-  // có thể mở lại popup nếu muốn
-  document.getElementById("loginOverlay").style.display = "flex";
+  // 👉 mở lại login popup (đây là thứ bạn thiếu)
+  setTimeout(() => {
+    openLoginPopup();
+  }, 200);
 }
 </script>
 
@@ -631,6 +637,38 @@ function logout() {
     }
   });
 });
+</script>
+<script>  
+function openLoginPopup() {
+  const overlay = document.getElementById("loginOverlay");
+
+  overlay.style.display = "flex";
+
+  // nếu dùng animation
+  setTimeout(() => {
+    overlay.classList.add("active");
+  }, 10);
+
+  // focus input
+  const input = document.getElementById("passInput");
+  input.value = "";
+  input.focus();
+}  
+</script>    
+<script>
+  function closeLoginPopup() {
+  const overlay = document.getElementById("loginOverlay");
+
+  overlay.classList.remove("active");
+
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 300);
+}
+</script>
+
+<script>
+document.getElementById("openLogin").onclick = openLoginPopup;
 </script>
   
 </body>
