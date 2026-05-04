@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,193 +7,329 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --bg:#f4f2ee; --paper:#faf9f6; --ink:#1a1714; --ink2:#5a5650; --ink3:#b0ada7; --line:#e2dfd9;
-  --web:#2563eb; --web-bg:#eff6ff;
-  --file:#16a34a; --file-bg:#f0fdf4;
-  --dir:#d97706;  --dir-bg:#fffbeb;
-  --app:#9333ea;  --app-bg:#faf5ff;
-  --priv:#e11d48; --priv-bg:#fff1f2;
-  --hover:rgba(26,23,20,.04); --radius:10px;
+/* ═══════════════════════════════════════════
+   THEME TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --tr: all .22s ease;
 }
+[data-theme="light"] {
+  --bg:       #f4f2ee;
+  --paper:    #faf9f6;
+  --ink:      #1a1714;
+  --ink2:     #5a5650;
+  --ink3:     #b0ada7;
+  --line:     #e2dfd9;
+  --hover:    rgba(26,23,20,.04);
+  --shadow:   rgba(26,23,20,.14);
+  --chip-bg:  #f0ede8;
+  --chip-hover: #e8e4dd;
+}
+[data-theme="dark"] {
+  --bg:       #111110;
+  --paper:    #1a1917;
+  --ink:      #f0ede8;
+  --ink2:     #a09d98;
+  --ink3:     #5a5750;
+  --line:     #2e2c29;
+  --hover:    rgba(240,237,232,.05);
+  --shadow:   rgba(0,0,0,.45);
+  --chip-bg:  #242220;
+  --chip-hover: #2e2c29;
+}
+
+/* TYPE COLORS — same both themes */
+:root {
+  --web:#3b82f6;   --web-bg-l:#eff6ff;   --web-bg-d:#1e2d4a;   --web-t-l:#2563eb;   --web-t-d:#93c5fd;
+  --file:#22c55e;  --file-bg-l:#f0fdf4;  --file-bg-d:#162a1f;  --file-t-l:#16a34a;  --file-t-d:#86efac;
+  --dir:#f59e0b;   --dir-bg-l:#fffbeb;   --dir-bg-d:#2a2010;   --dir-t-l:#d97706;   --dir-t-d:#fcd34d;
+  --app:#a855f7;   --app-bg-l:#faf5ff;   --app-bg-d:#22103a;   --app-t-l:#9333ea;   --app-t-d:#d8b4fe;
+  --priv:#f43f5e;  --priv-bg-l:#fff1f2;  --priv-bg-d:#2a0f16;  --priv-t-l:#e11d48;  --priv-t-d:#fda4af;
+}
+[data-theme="light"] {
+  --web-bg: var(--web-bg-l);   --web-t: var(--web-t-l);
+  --file-bg:var(--file-bg-l);  --file-t:var(--file-t-l);
+  --dir-bg: var(--dir-bg-l);   --dir-t: var(--dir-t-l);
+  --app-bg: var(--app-bg-l);   --app-t: var(--app-t-l);
+  --priv-bg:var(--priv-bg-l);  --priv-t: var(--priv-t-l);
+}
+[data-theme="dark"] {
+  --web-bg: var(--web-bg-d);   --web-t: var(--web-t-d);
+  --file-bg:var(--file-bg-d);  --file-t:var(--file-t-d);
+  --dir-bg: var(--dir-bg-d);   --dir-t: var(--dir-t-d);
+  --app-bg: var(--app-bg-d);   --app-t: var(--app-t-d);
+  --priv-bg:var(--priv-bg-d);  --priv-t: var(--priv-t-d);
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;}
-body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-weight:400;line-height:1;min-height:100vh;}
-.shell{display:grid;grid-template-columns:280px 1fr;min-height:100vh;}
+body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-weight:400;line-height:1;min-height:100vh;transition:background .22s,color .22s;}
+.shell{display:grid;grid-template-columns:272px 1fr;min-height:100vh;}
 
-/* ── SIDEBAR ─────────────────────────────────────── */
-aside{background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:30px 24px;position:sticky;top:0;height:100vh;overflow-y:auto;gap:0;}
+/* ═══════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════ */
+aside{
+  background:var(--paper);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;padding:28px 22px;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+  transition:background .22s,border-color .22s;
+}
 .brand{font-family:'DM Serif Display',serif;font-size:1.35rem;letter-spacing:-.01em;color:var(--ink);margin-bottom:3px;}
-.tagline{font-size:.65rem;color:var(--ink3);letter-spacing:.09em;text-transform:uppercase;font-weight:500;margin-bottom:24px;}
+.tagline{font-size:.63rem;color:var(--ink3);letter-spacing:.09em;text-transform:uppercase;font-weight:500;margin-bottom:22px;}
 
-/* Clock + Lunar */
-.clock-block{margin-bottom:20px;}
+/* Theme toggle */
+.theme-toggle{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 10px;border-radius:8px;
+  border:1px solid var(--line);background:var(--chip-bg);
+  cursor:pointer;transition:var(--tr);margin-bottom:20px;
+  width:100%;
+}
+.theme-toggle:hover{background:var(--chip-hover);border-color:var(--ink3);}
+.toggle-track{
+  width:34px;height:18px;border-radius:99px;
+  background:var(--line);position:relative;flex-shrink:0;
+  transition:background .22s;
+}
+[data-theme="dark"] .toggle-track{background:var(--ink2);}
+.toggle-thumb{
+  position:absolute;top:2px;left:2px;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--paper);transition:transform .22s,background .22s;
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+[data-theme="dark"] .toggle-thumb{transform:translateX(16px);background:var(--ink);}
+.toggle-label{font-size:.75rem;font-weight:500;color:var(--ink2);}
+.toggle-ico{font-size:.85rem;margin-left:auto;}
+
+/* Clock */
+.clock-block{margin-bottom:18px;}
 #clock{font-family:'DM Mono',monospace;font-size:2rem;font-weight:400;letter-spacing:-.03em;color:var(--ink);line-height:1;}
-#date-solar{font-size:.7rem;color:var(--ink2);margin-top:6px;letter-spacing:.02em;line-height:1.6;}
-#date-lunar{font-size:.67rem;color:var(--ink3);margin-top:2px;font-style:italic;letter-spacing:.01em;line-height:1.5;}
+#date-solar{font-size:.69rem;color:var(--ink2);margin-top:6px;letter-spacing:.02em;line-height:1.6;}
+#date-lunar{font-size:.66rem;color:var(--ink3);margin-top:1px;font-style:italic;line-height:1.5;}
 
-/* Weather Widget */
-.weather-card{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:22px;min-height:72px;position:relative;}
-.weather-loading{font-size:.72rem;color:var(--ink3);display:flex;align-items:center;gap:6px;}
-.weather-body{display:flex;align-items:center;gap:12px;}
-.weather-icon{font-size:2rem;line-height:1;flex-shrink:0;}
-.weather-info{}
-.weather-temp{font-family:'DM Mono',monospace;font-size:1.6rem;font-weight:500;letter-spacing:-.04em;line-height:1;color:var(--ink);}
-.weather-desc{font-size:.68rem;color:var(--ink2);margin-top:3px;line-height:1.4;}
-.weather-city{font-size:.62rem;color:var(--ink3);margin-top:2px;}
-.weather-extra{display:flex;gap:10px;margin-top:8px;padding-top:8px;border-top:1px solid var(--line);}
-.weather-stat{font-size:.62rem;color:var(--ink3);display:flex;align-items:center;gap:3px;}
+/* Weather */
+.weather-card{
+  background:var(--chip-bg);border:1px solid var(--line);border-radius:10px;
+  padding:12px 14px;margin-bottom:20px;min-height:62px;position:relative;
+  transition:var(--tr);
+}
+.weather-loading{font-size:.71rem;color:var(--ink3);display:flex;align-items:center;gap:6px;}
+.weather-body{display:flex;align-items:center;gap:11px;}
+.weather-icon{font-size:1.9rem;line-height:1;flex-shrink:0;}
+.weather-temp{font-family:'DM Mono',monospace;font-size:1.55rem;font-weight:500;letter-spacing:-.04em;line-height:1;color:var(--ink);}
+.weather-desc{font-size:.67rem;color:var(--ink2);margin-top:3px;line-height:1.4;}
+.weather-city{font-size:.61rem;color:var(--ink3);margin-top:2px;}
+.weather-extra{display:flex;gap:10px;margin-top:7px;padding-top:7px;border-top:1px solid var(--line);}
+.weather-stat{font-size:.61rem;color:var(--ink3);display:flex;align-items:center;gap:3px;}
 .weather-stat b{color:var(--ink2);font-weight:600;}
-.weather-retry{position:absolute;top:10px;right:10px;background:none;border:none;cursor:pointer;font-size:.65rem;color:var(--ink3);padding:3px 6px;border-radius:5px;transition:all .15s;}
+.weather-retry{position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:.63rem;color:var(--ink3);padding:2px 5px;border-radius:5px;transition:all .15s;}
 .weather-retry:hover{background:var(--hover);color:var(--ink);}
 
 /* Search */
-.search-wrap{position:relative;margin-bottom:24px;}
-.search-wrap input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 14px 9px 34px;font-family:'Outfit',sans-serif;font-size:.79rem;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;}
+.search-wrap{position:relative;margin-bottom:22px;}
+.search-wrap input{
+  width:100%;background:var(--chip-bg);border:1px solid var(--line);
+  border-radius:8px;padding:9px 14px 9px 33px;
+  font-family:'Outfit',sans-serif;font-size:.79rem;color:var(--ink);outline:none;
+  transition:var(--tr);
+}
 .search-wrap input::placeholder{color:var(--ink3);}
-.search-wrap input:focus{border-color:var(--ink2);box-shadow:0 0 0 3px rgba(26,23,20,.06);}
+.search-wrap input:focus{border-color:var(--ink2);box-shadow:0 0 0 3px rgba(128,128,128,.1);}
 .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink3);}
-.nav-label{font-size:.61rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px;}
-.nav-groups{display:flex;flex-direction:column;gap:2px;flex:1;}
-.nav-item{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:7px;cursor:pointer;transition:background .15s;font-size:.79rem;color:var(--ink2);font-weight:500;}
+
+/* Nav */
+.nav-label{font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;}
+.nav-groups{display:flex;flex-direction:column;gap:2px;flex:1;overflow-y:auto;}
+.nav-item{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:7px;cursor:pointer;transition:background .15s;font-size:.78rem;color:var(--ink2);font-weight:500;}
 .nav-item:hover{background:var(--hover);color:var(--ink);}
-.nav-item .lock-ico{font-size:.65rem;opacity:.5;}
-.nav-count{font-family:'DM Mono',monospace;font-size:.65rem;opacity:.45;}
-.sidebar-footer{margin-top:auto;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:3px;}
-.sb-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;border:none;background:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.79rem;font-weight:500;color:var(--ink2);transition:background .15s,color .15s;width:100%;text-align:left;}
+.nav-item .lock-ico{font-size:.62rem;opacity:.5;}
+.nav-count{font-family:'DM Mono',monospace;font-size:.64rem;opacity:.45;}
+
+/* Footer */
+.sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:2px;}
+.sb-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;border:none;background:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:500;color:var(--ink2);transition:background .15s,color .15s;width:100%;text-align:left;}
 .sb-btn:hover{background:var(--hover);color:var(--ink);}
 .sb-btn svg{flex-shrink:0;}
 
-/* ── MAIN ─────────────────────────────────────────── */
-main{padding:42px 52px;min-height:100vh;}
-.group-section{margin-bottom:46px;animation:fadeUp .3s ease both;}
+/* ═══════════════════════════════════════════
+   MAIN CONTENT
+═══════════════════════════════════════════ */
+main{padding:40px 48px;min-height:100vh;}
+
+.group-section{margin-bottom:40px;animation:fadeUp .3s ease both;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
-.group-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;padding-bottom:13px;border-bottom:1px solid var(--line);}
-.group-name{font-family:'DM Serif Display',serif;font-size:1.45rem;letter-spacing:-.02em;color:var(--ink);display:flex;align-items:center;gap:10px;}
-.group-lock-badge{font-size:.7rem;background:var(--priv-bg);color:var(--priv);border:1px solid #fecdd3;border-radius:20px;padding:2px 9px;font-family:'DM Mono',monospace;letter-spacing:.04em;font-style:normal;vertical-align:middle;}
-.group-meta{display:flex;align-items:center;gap:7px;}
-.group-count{font-family:'DM Mono',monospace;font-size:.67rem;color:var(--ink3);margin-right:3px;}
-.grp-btn{background:none;border:1px solid var(--line);border-radius:6px;padding:3px 9px;font-size:.66rem;font-family:'Outfit',sans-serif;font-weight:500;color:var(--ink3);cursor:pointer;letter-spacing:.04em;transition:all .15s;}
+.group-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+.group-name{font-family:'DM Serif Display',serif;font-size:1.45rem;letter-spacing:-.02em;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.group-lock-badge{font-size:.67rem;background:var(--priv-bg);color:var(--priv-t);border:1px solid color-mix(in srgb,var(--priv-t) 30%,transparent);border-radius:20px;padding:2px 9px;font-family:'DM Mono',monospace;letter-spacing:.04em;font-style:normal;}
+.group-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;}
+.group-count{font-family:'DM Mono',monospace;font-size:.66rem;color:var(--ink3);margin-right:2px;}
+.grp-btn{background:none;border:1px solid var(--line);border-radius:6px;padding:3px 9px;font-size:.65rem;font-family:'Outfit',sans-serif;font-weight:500;color:var(--ink3);cursor:pointer;letter-spacing:.04em;transition:all .15s;}
 .grp-btn:hover{border-color:var(--ink2);color:var(--ink);}
 .grp-btn.danger:hover{border-color:#ef4444;color:#ef4444;}
-.grp-btn.unlock-btn{border-color:#fecdd3;color:var(--priv);background:var(--priv-bg);}
-.grp-btn.unlock-btn:hover{border-color:var(--priv);background:#ffe4e6;}
+.grp-btn.unlock-btn{border-color:color-mix(in srgb,var(--priv-t) 40%,transparent);color:var(--priv-t);background:var(--priv-bg);}
+.grp-btn.unlock-btn:hover{border-color:var(--priv-t);}
 
-/* Shortcut rows */
-.shortcut-list{display:flex;flex-direction:column;}
-.sc-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:16px;padding:11px 12px;border-radius:var(--radius);cursor:pointer;transition:background .15s;position:relative;}
-.sc-row:hover{background:var(--hover);}
-.sc-row:not(:last-child)::after{content:'';position:absolute;bottom:0;left:22px;right:0;height:1px;background:var(--line);opacity:.5;}
-.sc-left{display:flex;align-items:center;gap:14px;min-width:0;}
-.sc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.dot-web{background:var(--web);}.dot-file{background:var(--file);}.dot-dir{background:var(--dir);}.dot-app{background:var(--app);}
-.sc-name{font-size:.87rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);}
-.sc-url{font-family:'DM Mono',monospace;font-size:.66rem;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px;margin-top:2px;}
-.sc-badge{font-family:'DM Mono',monospace;font-size:.58rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:4px;flex-shrink:0;}
-.badge-web{background:var(--web-bg);color:var(--web);}.badge-file{background:var(--file-bg);color:var(--file);}.badge-dir{background:var(--dir-bg);color:var(--dir);}.badge-app{background:var(--app-bg);color:var(--app);}
-.sc-actions{display:flex;gap:2px;opacity:0;transition:opacity .15s;}
-.sc-row:hover .sc-actions{opacity:1;}
-.sc-act{background:none;border:none;cursor:pointer;padding:5px 7px;border-radius:6px;font-size:.72rem;color:var(--ink3);transition:all .15s;}
-.sc-act:hover{background:var(--hover);color:var(--ink);}
-.sc-act.del:hover{background:#fef2f2;color:#ef4444;}
+/* ═══════════════════════════════════════════
+   CHIP / TILE LAYOUT — horizontal wrapping
+═══════════════════════════════════════════ */
+.shortcut-chips{
+  display:flex;flex-wrap:wrap;gap:8px;
+}
 
-/* LOCKED GROUP overlay */
-.locked-wrap{position:relative;border-radius:10px;overflow:hidden;}
-.locked-blur{filter:blur(6px);pointer-events:none;user-select:none;opacity:.4;}
-.locked-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:10px;border:1px dashed #fecdd3;background:rgba(255,241,242,.5);}
+.sc-chip{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:8px 14px 8px 10px;
+  background:var(--chip-bg);
+  border:1px solid var(--line);
+  border-radius:40px;
+  cursor:pointer;
+  transition:background .15s,border-color .15s,transform .15s,box-shadow .15s;
+  max-width:320px;
+  position:relative;
+  text-decoration:none;color:var(--ink);
+  animation:chipIn .25s ease both;
+}
+@keyframes chipIn{from{opacity:0;transform:scale(.93);}to{opacity:1;transform:scale(1);}}
+.sc-chip:hover{
+  background:var(--chip-hover);
+  border-color:var(--ink3);
+  transform:translateY(-1px);
+  box-shadow:0 3px 12px var(--shadow);
+}
+.sc-chip:active{transform:translateY(0);box-shadow:none;}
+
+.chip-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.dot-web{background:var(--web);}
+.dot-file{background:var(--file);}
+.dot-dir{background:var(--dir);}
+.dot-app{background:var(--app);}
+
+.chip-name{font-size:.82rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);}
+.chip-badge{font-family:'DM Mono',monospace;font-size:.56rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:4px;flex-shrink:0;}
+.badge-web {background:var(--web-bg);  color:var(--web-t);}
+.badge-file{background:var(--file-bg); color:var(--file-t);}
+.badge-dir {background:var(--dir-bg);  color:var(--dir-t);}
+.badge-app {background:var(--app-bg);  color:var(--app-t);}
+
+/* Edit/delete — appear on hover */
+.chip-acts{display:flex;gap:1px;opacity:0;transition:opacity .15s;margin-left:2px;}
+.sc-chip:hover .chip-acts{opacity:1;}
+.chip-act{background:none;border:none;cursor:pointer;padding:3px 5px;border-radius:6px;font-size:.7rem;color:var(--ink3);transition:all .15s;line-height:1;}
+.chip-act:hover{background:var(--hover);color:var(--ink);}
+.chip-act.del:hover{background:rgba(239,68,68,.12);color:#ef4444;}
+
+/* Locked group */
+.locked-wrap{position:relative;border-radius:12px;overflow:hidden;}
+.locked-blur{filter:blur(5px);pointer-events:none;user-select:none;opacity:.35;}
+.locked-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--priv-t) 35%,transparent);background:color-mix(in srgb,var(--priv-bg) 60%,transparent);}
 .locked-overlay .lock-icon{font-size:1.6rem;}
-.locked-overlay p{font-size:.78rem;color:var(--priv);font-weight:500;}
-.locked-overlay button{background:var(--priv);color:white;border:none;border-radius:8px;padding:8px 20px;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:opacity .15s;}
-.locked-overlay button:hover{opacity:.85;}
+.locked-overlay p{font-size:.77rem;color:var(--priv-t);font-weight:500;}
+.locked-overlay button{background:var(--priv-t);color:white;border:none;border-radius:8px;padding:8px 20px;font-family:'Outfit',sans-serif;font-size:.79rem;font-weight:600;cursor:pointer;transition:opacity .15s;}
+.locked-overlay button:hover{opacity:.82;}
 
-.empty-group{padding:12px 14px;color:var(--ink3);font-size:.78rem;}
+.empty-group{padding:10px 4px;color:var(--ink3);font-size:.77rem;}
 .empty-main{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:65vh;color:var(--ink3);text-align:center;gap:10px;}
 .empty-main .et{font-family:'DM Serif Display',serif;font-size:1.7rem;color:var(--ink2);}
 .empty-main p{font-size:.82rem;line-height:1.8;}
 .no-results{text-align:center;color:var(--ink3);font-size:.82rem;padding:60px;display:none;}
 .no-results.show{display:block;}
 
-/* ── MODALS (shared) ────────────────────────────── */
-.overlay{position:fixed;inset:0;background:rgba(20,18,16,.52);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;}
+/* ═══════════════════════════════════════════
+   MODALS
+═══════════════════════════════════════════ */
+.overlay{position:fixed;inset:0;background:rgba(10,9,8,.55);backdrop-filter:blur(7px);z-index:100;display:none;align-items:center;justify-content:center;}
 .overlay.show{display:flex;}
-.modal{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:32px;width:100%;max-width:450px;box-shadow:0 20px 60px rgba(20,18,16,.18);animation:slideUp .2s ease;position:relative;}
+.modal{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:30px;width:100%;max-width:440px;box-shadow:0 20px 60px var(--shadow);animation:slideUp .2s ease;position:relative;transition:background .22s,border-color .22s;}
 @keyframes slideUp{from{opacity:0;transform:translateY(14px) scale(.98);}to{opacity:1;transform:none;}}
-.modal-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;}
-.modal-title{font-family:'DM Serif Display',serif;font-size:1.3rem;letter-spacing:-.01em;line-height:1.2;}
-.modal-sub{font-size:.7rem;color:var(--ink3);margin-top:4px;line-height:1.6;}
-.modal-close{background:none;border:1px solid var(--line);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:.75rem;color:var(--ink3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.modal-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;}
+.modal-title{font-family:'DM Serif Display',serif;font-size:1.25rem;letter-spacing:-.01em;line-height:1.2;color:var(--ink);}
+.modal-sub{font-size:.69rem;color:var(--ink3);margin-top:4px;line-height:1.6;}
+.modal-close{background:none;border:1px solid var(--line);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:.72rem;color:var(--ink3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
 .modal-close:hover{border-color:var(--ink2);color:var(--ink);}
-.form-row{margin-bottom:15px;}
-label{display:block;font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;}
-input[type=text],input[type=password],select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 13px;color:var(--ink);font-family:'Outfit',sans-serif;font-size:.86rem;outline:none;transition:border-color .2s;line-height:1.5;}
+.form-row{margin-bottom:14px;}
+label{display:block;font-size:.63rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;}
+input[type=text],input[type=password],select{
+  width:100%;background:var(--chip-bg);border:1px solid var(--line);border-radius:8px;
+  padding:10px 12px;color:var(--ink);font-family:'Outfit',sans-serif;font-size:.85rem;
+  outline:none;transition:var(--tr);line-height:1.5;
+}
 input[type=text]:focus,input[type=password]:focus,select:focus{border-color:var(--ink2);}
 input[type=text]::placeholder,input[type=password]::placeholder{color:var(--ink3);}
 select{cursor:pointer;}
 select option{background:var(--paper);}
-.type-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:15px;}
-.type-tab{border:1px solid var(--line);border-radius:8px;padding:9px 4px;cursor:pointer;text-align:center;font-size:.68rem;font-weight:600;letter-spacing:.04em;color:var(--ink3);transition:all .15s;background:var(--bg);user-select:none;}
+.type-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:14px;}
+.type-tab{border:1px solid var(--line);border-radius:8px;padding:8px 4px;cursor:pointer;text-align:center;font-size:.67rem;font-weight:600;letter-spacing:.04em;color:var(--ink3);transition:all .15s;background:var(--chip-bg);user-select:none;}
 .type-tab:hover{border-color:var(--ink3);color:var(--ink);}
-.t-web{border-color:var(--web);color:var(--web);background:var(--web-bg);}
-.t-file{border-color:var(--file);color:var(--file);background:var(--file-bg);}
-.t-dir{border-color:var(--dir);color:var(--dir);background:var(--dir-bg);}
-.t-app{border-color:var(--app);color:var(--app);background:var(--app-bg);}
-.hint{font-size:.67rem;color:var(--ink3);margin-top:5px;line-height:1.7;white-space:pre-line;}
-.check-row{display:flex;align-items:center;gap:10px;padding:10px 13px;background:var(--bg);border:1px solid var(--line);border-radius:8px;cursor:pointer;transition:border-color .15s;}
-.check-row:has(input:checked){border-color:var(--priv);background:var(--priv-bg);}
-.check-row input[type=checkbox]{accent-color:var(--priv);width:15px;height:15px;cursor:pointer;}
-.check-row .check-label{font-size:.83rem;font-weight:500;color:var(--ink);cursor:pointer;}
-.check-row .check-desc{font-size:.68rem;color:var(--ink3);margin-top:2px;}
+.t-web {border-color:var(--web-t)!important;color:var(--web-t)!important;background:var(--web-bg)!important;}
+.t-file{border-color:var(--file-t)!important;color:var(--file-t)!important;background:var(--file-bg)!important;}
+.t-dir {border-color:var(--dir-t)!important;color:var(--dir-t)!important;background:var(--dir-bg)!important;}
+.t-app {border-color:var(--app-t)!important;color:var(--app-t)!important;background:var(--app-bg)!important;}
+.hint{font-size:.66rem;color:var(--ink3);margin-top:5px;line-height:1.7;white-space:pre-line;}
+.check-row{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--chip-bg);border:1px solid var(--line);border-radius:8px;cursor:pointer;transition:border-color .15s;}
+.check-row:has(input:checked){border-color:var(--priv-t);background:var(--priv-bg);}
+.check-row input[type=checkbox]{accent-color:var(--priv-t);width:15px;height:15px;cursor:pointer;margin-top:2px;flex-shrink:0;}
+.check-row .check-label{font-size:.82rem;font-weight:500;color:var(--ink);cursor:pointer;}
+.check-row .check-desc{font-size:.67rem;color:var(--ink3);margin-top:2px;}
 .modal-actions{display:flex;gap:8px;margin-top:20px;}
-.btn-save,.btn-cancel{flex:1;padding:11px;border-radius:8px;border:none;font-family:'Outfit',sans-serif;font-size:.83rem;font-weight:600;cursor:pointer;transition:all .15s;}
-.btn-save{background:var(--ink);color:var(--paper);}
-.btn-save:hover{background:#2d2a27;}
-.btn-cancel{background:var(--bg);color:var(--ink2);border:1px solid var(--line);}
+.btn-save,.btn-cancel{flex:1;padding:10px;border-radius:8px;border:none;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .15s;}
+.btn-save{background:var(--ink);color:var(--bg);}
+.btn-save:hover{opacity:.85;}
+.btn-cancel{background:var(--chip-bg);color:var(--ink2);border:1px solid var(--line);}
 .btn-cancel:hover{border-color:var(--ink2);color:var(--ink);}
-.btn-danger{background:#fef2f2;color:#ef4444;border:1px solid #fecaca;}
-.btn-danger:hover{background:#fee2e2;}
 
-/* PIN modal specific */
-.pin-modal{max-width:340px;}
-.pin-display{display:flex;gap:10px;justify-content:center;margin:22px 0 16px;}
-.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);background:transparent;transition:all .15s;}
+/* PIN */
+.pin-modal{max-width:320px;}
+.pin-display{display:flex;gap:10px;justify-content:center;margin:20px 0 14px;}
+.pin-dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--line);background:transparent;transition:all .15s;}
 .pin-dot.filled{background:var(--ink);border-color:var(--ink);}
 .pin-dot.error{background:#ef4444;border-color:#ef4444;}
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
-.pin-key{height:52px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:500;color:var(--ink);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;}
-.pin-key:hover{background:var(--hover);border-color:var(--ink3);}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px;}
+.pin-key{height:50px;border-radius:10px;border:1px solid var(--line);background:var(--chip-bg);font-family:'DM Mono',monospace;font-size:1.05rem;font-weight:500;color:var(--ink);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+.pin-key:hover{background:var(--chip-hover);border-color:var(--ink3);}
 .pin-key:active{transform:scale(.94);}
-.pin-key.backspace{font-size:.85rem;}
+.pin-key.backspace{font-size:.82rem;}
 .pin-key.empty{background:transparent;border-color:transparent;cursor:default;}
-.pin-error{text-align:center;font-size:.72rem;color:#ef4444;height:18px;margin-bottom:8px;}
-.pin-hint{text-align:center;font-size:.7rem;color:var(--ink3);line-height:1.6;}
+.pin-error{text-align:center;font-size:.7rem;color:#ef4444;height:16px;margin-bottom:6px;}
+.pin-hint{text-align:center;font-size:.69rem;color:var(--ink3);line-height:1.6;}
 
 /* Toast */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--paper);padding:9px 20px;border-radius:50px;font-size:.75rem;font-weight:500;opacity:0;transition:all .2s;z-index:999;pointer-events:none;white-space:nowrap;}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--bg);padding:8px 20px;border-radius:50px;font-size:.74rem;font-weight:500;opacity:0;transition:all .2s;z-index:999;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
 <div class="shell">
 
-<!-- ════════ SIDEBAR ════════ -->
+<!-- ════ SIDEBAR ════ -->
 <aside>
   <div class="brand">Launcher</div>
   <div class="tagline">Personal workspace</div>
 
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" onclick="toggleTheme()" title="Đổi chủ đề">
+    <div class="toggle-track"><div class="toggle-thumb"></div></div>
+    <span class="toggle-label" id="themeLabel">Sáng</span>
+    <span class="toggle-ico" id="themeIco">☀️</span>
+  </button>
+
+  <!-- Clock -->
   <div class="clock-block">
     <div id="clock">--:--</div>
     <div id="date-solar"></div>
     <div id="date-lunar"></div>
   </div>
 
-  <!-- Weather Widget -->
+  <!-- Weather -->
   <div class="weather-card" id="weatherCard">
-    <div class="weather-loading" id="weatherLoading">
-      <span>⏳</span> Đang lấy thời tiết...
-    </div>
+    <div class="weather-loading" id="weatherLoading"><span>⏳</span> Đang lấy thời tiết...</div>
     <div class="weather-body" id="weatherBody" style="display:none">
       <div class="weather-icon" id="wIcon"></div>
-      <div class="weather-info">
+      <div>
         <div class="weather-temp" id="wTemp"></div>
         <div class="weather-desc" id="wDesc"></div>
         <div class="weather-city" id="wCity"></div>
@@ -207,6 +343,7 @@ select option{background:var(--paper);}
     <button class="weather-retry" id="weatherRetry" style="display:none" onclick="fetchWeather()">↺</button>
   </div>
 
+  <!-- Search -->
   <div class="search-wrap">
     <svg class="search-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16">
       <circle cx="7" cy="7" r="5"/><path d="M12 12l-2-2"/>
@@ -233,38 +370,29 @@ select option{background:var(--paper);}
   </div>
 </aside>
 
-<!-- ════════ MAIN ════════ -->
+<!-- ════ MAIN ════ -->
 <main id="mainContent"></main>
 </div>
 
-<!-- ════════ MODAL: ADD / EDIT SHORTCUT OR GROUP ════════ -->
+<!-- ════ MODAL: SHORTCUT / GROUP ════ -->
 <div class="overlay" id="overlay" onclick="closeOverlay(event)">
   <div class="modal">
     <div class="modal-hd">
-      <div>
-        <div class="modal-title" id="modalTitle">Thêm shortcut</div>
-        <div class="modal-sub" id="modalSub"></div>
-      </div>
+      <div><div class="modal-title" id="modalTitle">Thêm shortcut</div><div class="modal-sub" id="modalSub"></div></div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div id="formGroup" style="display:none">
-      <div class="form-row">
-        <label>Tên nhóm</label>
-        <input type="text" id="groupName" placeholder="VD: Công việc, Dev Tools...">
-      </div>
+      <div class="form-row"><label>Tên nhóm</label><input type="text" id="groupName" placeholder="VD: Công việc, Dev Tools..."></div>
       <div class="form-row">
         <div class="check-row" onclick="document.getElementById('groupLocked').click()">
           <input type="checkbox" id="groupLocked" onclick="event.stopPropagation()">
-          <div>
-            <div class="check-label">🔒 Nhóm riêng tư (có passcode)</div>
-            <div class="check-desc">Yêu cầu nhập passcode trước khi xem</div>
-          </div>
+          <div><div class="check-label">🔒 Nhóm riêng tư (có passcode)</div><div class="check-desc">Yêu cầu nhập passcode trước khi xem</div></div>
         </div>
       </div>
     </div>
     <div id="formShortcut" style="display:none">
       <div class="form-row">
-        <label>Loại shortcut</label>
+        <label>Loại</label>
         <div class="type-tabs">
           <div class="type-tab" data-type="web"  onclick="setType('web')">🌐 Web</div>
           <div class="type-tab" data-type="file" onclick="setType('file')">📄 File</div>
@@ -272,19 +400,9 @@ select option{background:var(--paper);}
           <div class="type-tab" data-type="app"  onclick="setType('app')">⚙️ App</div>
         </div>
       </div>
-      <div class="form-row">
-        <label>Tên hiển thị</label>
-        <input type="text" id="scName" placeholder="VD: GitHub, Notion...">
-      </div>
-      <div class="form-row">
-        <label id="urlLabel">URL</label>
-        <input type="text" id="scUrl" placeholder="">
-        <div class="hint" id="urlHint"></div>
-      </div>
-      <div class="form-row">
-        <label>Nhóm</label>
-        <select id="scGroup"></select>
-      </div>
+      <div class="form-row"><label>Tên hiển thị</label><input type="text" id="scName" placeholder="VD: GitHub, Notion..."></div>
+      <div class="form-row"><label id="urlLabel">URL</label><input type="text" id="scUrl" placeholder=""><div class="hint" id="urlHint"></div></div>
+      <div class="form-row"><label>Nhóm</label><select id="scGroup"></select></div>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Hủy</button>
@@ -293,14 +411,11 @@ select option{background:var(--paper);}
   </div>
 </div>
 
-<!-- ════════ MODAL: PIN ENTRY ════════ -->
+<!-- ════ MODAL: PIN ════ -->
 <div class="overlay" id="pinOverlay" onclick="closePinOverlay(event)">
   <div class="modal pin-modal">
     <div class="modal-hd">
-      <div>
-        <div class="modal-title" id="pinTitle">Nhập passcode</div>
-        <div class="modal-sub" id="pinSub">Nhóm này được bảo vệ bằng passcode</div>
-      </div>
+      <div><div class="modal-title" id="pinTitle">Nhập passcode</div><div class="modal-sub" id="pinSub"></div></div>
       <button class="modal-close" onclick="closePinModal()">✕</button>
     </div>
     <div class="pin-display" id="pinDisplay"></div>
@@ -313,339 +428,189 @@ select option{background:var(--paper);}
 <div class="toast" id="toast"></div>
 
 <script>
-// ════════════════════════════════════════════════════════
-// LUNAR CALENDAR — Ho Ngoc Duc algorithm
-// ════════════════════════════════════════════════════════
-const TZ = 7; // Vietnam UTC+7
-function jdFromDate(d,m,y){
-  var a=Math.floor((14-m)/12),yy=y+4800-a,mm=m+12*a-3;
-  var jd=d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;
-  if(jd<2299161) jd=d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-32083;
-  return jd;
+// ════════════════════════════════════════════
+// THEME
+// ════════════════════════════════════════════
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  localStorage.setItem('launcher_theme',t);
+  document.getElementById('themeLabel').textContent = t==='dark' ? 'Tối' : 'Sáng';
+  document.getElementById('themeIco').textContent   = t==='dark' ? '🌙' : '☀️';
 }
-function newMoonDay(k,tz){
-  var T=k/1236.85,T2=T*T,T3=T2*T,dr=Math.PI/180;
-  var Jd1=2415020.75933+29.53058868*k+0.0001178*T2-0.000000155*T3;
-  Jd1+=0.00033*Math.sin((166.56+132.87*T-0.009173*T2)*dr);
-  var M=357.52910+29.10535608*k-0.0000333*T2-0.00000347*T3;
-  var Mpr=306.0253+385.81691806*k+0.0107306*T2+0.00001236*T3;
-  var F=21.2964+390.67050646*k-0.0016528*T2-0.00000239*T3;
-  var C1=(0.1734-0.000393*T)*Math.sin(M*dr)+0.0021*Math.sin(2*dr*M);
-  C1-=0.4068*Math.sin(Mpr*dr)-0.0161*Math.sin(dr*2*Mpr)+0.0004*Math.sin(dr*3*Mpr);
-  C1+=0.0104*Math.sin(dr*2*F)-0.0051*Math.sin(dr*(M+Mpr))-0.0074*Math.sin(dr*(M-Mpr));
-  C1+=0.0004*Math.sin(dr*(2*F+M))-0.0004*Math.sin(dr*(2*F-M))-0.0006*Math.sin(dr*(2*F+Mpr));
-  C1+=0.0010*Math.sin(dr*(2*F-Mpr))+0.0005*Math.sin(dr*(2*Mpr+M));
-  var deltat=T<-11?0.001+0.000839*T+0.0002261*T2-0.00000845*T3-0.000000081*T*T3:-0.000278+0.000265*T+0.000262*T2;
-  return Math.floor(Jd1+C1-deltat+0.5+tz/24);
-}
-function sunLong(jdn,tz){
-  var T=(jdn-2451545.5-tz/24)/36525,T2=T*T,dr=Math.PI/180;
-  var M=357.52910+35999.05030*T-0.0001559*T2-0.00000048*T*T2;
-  var L0=280.46645+36000.76983*T+0.0003032*T2;
-  var DL=(1.9146-0.004817*T-0.000014*T2)*Math.sin(dr*M)+(0.019993-0.000101*T)*Math.sin(dr*2*M)+0.00029*Math.sin(dr*3*M);
-  var L=(L0+DL-0.00569-0.00478*Math.sin((125.04-1934.136*T)*dr))*dr;
-  L-=Math.PI*2*Math.floor(L/(Math.PI*2));
-  return Math.floor(L/Math.PI*6);
-}
-function lunarMonth11(y,tz){
-  var off=jdFromDate(31,12,y)-2415021,k=Math.floor(off/29.530588853),nm=newMoonDay(k,tz);
-  if(sunLong(nm,tz)>=9) nm=newMoonDay(k-1,tz);
-  return nm;
-}
-function leapOffset(a11,tz){
-  var k=Math.floor((a11-2415021.076998695)/29.530588853+0.5),i=1,arc=sunLong(newMoonDay(k+i,tz),tz),last=0;
-  do{last=arc;i++;arc=sunLong(newMoonDay(k+i,tz),tz);}while(arc!==last&&i<14);
-  return i-1;
-}
-function solar2Lunar(d,m,y){
-  var dayNum=jdFromDate(d,m,y);
-  var k=Math.floor((dayNum-2415021.076998695)/29.530588853);
-  var ms=newMoonDay(k+1,TZ);if(ms>dayNum) ms=newMoonDay(k,TZ);
-  var a11=lunarMonth11(y,TZ),b11=a11,lunarYear,lunarMonth,lunarDay,lunarLeap=0;
-  if(a11>=ms){lunarYear=y;a11=lunarMonth11(y-1,TZ);}else{lunarYear=y+1;b11=lunarMonth11(y+1,TZ);}
-  lunarDay=dayNum-ms+1;
-  var diff=Math.floor((ms-a11)/29);
-  lunarMonth=diff+11;
-  if(b11-a11>365){
-    var lmd=leapOffset(a11,TZ);
-    if(diff>=lmd){lunarMonth=diff+10;if(diff===lmd) lunarLeap=1;}
-  }
-  if(lunarMonth>12) lunarMonth-=12;
-  if(lunarMonth>=11&&diff<4) lunarYear-=1;
-  return {day:lunarDay,month:lunarMonth,year:lunarYear,leap:lunarLeap};
-}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
+applyTheme(localStorage.getItem('launcher_theme')||'light');
+
+// ════════════════════════════════════════════
+// LUNAR CALENDAR (Ho Ngoc Duc algorithm)
+// ════════════════════════════════════════════
+const TZ=7;
+function jdFromDate(d,m,y){var a=Math.floor((14-m)/12),yy=y+4800-a,mm=m+12*a-3,jd=d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;if(jd<2299161)jd=d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-32083;return jd;}
+function newMoonDay(k,tz){var T=k/1236.85,T2=T*T,T3=T2*T,dr=Math.PI/180,Jd1=2415020.75933+29.53058868*k+0.0001178*T2-0.000000155*T3;Jd1+=0.00033*Math.sin((166.56+132.87*T-0.009173*T2)*dr);var M=357.52910+29.10535608*k-0.0000333*T2-0.00000347*T3,Mpr=306.0253+385.81691806*k+0.0107306*T2+0.00001236*T3,F=21.2964+390.67050646*k-0.0016528*T2-0.00000239*T3,C1=(0.1734-0.000393*T)*Math.sin(M*dr)+0.0021*Math.sin(2*dr*M);C1-=0.4068*Math.sin(Mpr*dr)+(-0.0161)*Math.sin(dr*2*Mpr)+0.0004*Math.sin(dr*3*Mpr);C1+=0.0104*Math.sin(dr*2*F)-0.0051*Math.sin(dr*(M+Mpr))-0.0074*Math.sin(dr*(M-Mpr));C1+=0.0004*Math.sin(dr*(2*F+M))-0.0004*Math.sin(dr*(2*F-M))-0.0006*Math.sin(dr*(2*F+Mpr));C1+=0.0010*Math.sin(dr*(2*F-Mpr))+0.0005*Math.sin(dr*(2*Mpr+M));var deltat=T<-11?0.001+0.000839*T+0.0002261*T2-0.00000845*T3-0.000000081*T*T3:-0.000278+0.000265*T+0.000262*T2;return Math.floor(Jd1+C1-deltat+0.5+tz/24);}
+function sunLong(jdn,tz){var T=(jdn-2451545.5-tz/24)/36525,T2=T*T,dr=Math.PI/180,M=357.52910+35999.05030*T-0.0001559*T2-0.00000048*T*T2,L0=280.46645+36000.76983*T+0.0003032*T2,DL=(1.9146-0.004817*T-0.000014*T2)*Math.sin(dr*M)+(0.019993-0.000101*T)*Math.sin(dr*2*M)+0.00029*Math.sin(dr*3*M),L=(L0+DL-0.00569-0.00478*Math.sin((125.04-1934.136*T)*dr))*dr;L-=Math.PI*2*Math.floor(L/(Math.PI*2));return Math.floor(L/Math.PI*6);}
+function lunarMonth11(y,tz){var off=jdFromDate(31,12,y)-2415021,k=Math.floor(off/29.530588853),nm=newMoonDay(k,tz);if(sunLong(nm,tz)>=9)nm=newMoonDay(k-1,tz);return nm;}
+function leapOffset(a11,tz){var k=Math.floor((a11-2415021.076998695)/29.530588853+0.5),i=1,arc=sunLong(newMoonDay(k+i,tz),tz),last=0;do{last=arc;i++;arc=sunLong(newMoonDay(k+i,tz),tz);}while(arc!==last&&i<14);return i-1;}
+function solar2Lunar(d,m,y){var dayNum=jdFromDate(d,m,y),k=Math.floor((dayNum-2415021.076998695)/29.530588853),ms=newMoonDay(k+1,TZ);if(ms>dayNum)ms=newMoonDay(k,TZ);var a11=lunarMonth11(y,TZ),b11=a11,lunarYear,lunarMonth,lunarDay,lunarLeap=0;if(a11>=ms){lunarYear=y;a11=lunarMonth11(y-1,TZ);}else{lunarYear=y+1;b11=lunarMonth11(y+1,TZ);}lunarDay=dayNum-ms+1;var diff=Math.floor((ms-a11)/29);lunarMonth=diff+11;if(b11-a11>365){var lmd=leapOffset(a11,TZ);if(diff>=lmd){lunarMonth=diff+10;if(diff===lmd)lunarLeap=1;}}if(lunarMonth>12)lunarMonth-=12;if(lunarMonth>=11&&diff<4)lunarYear-=1;return{day:lunarDay,month:lunarMonth,year:lunarYear,leap:lunarLeap};}
 const CAN=['Giáp','Ất','Bính','Đinh','Mậu','Kỷ','Canh','Tân','Nhâm','Quý'];
 const CHI=['Tý','Sửu','Dần','Mão','Thìn','Tỵ','Ngọ','Mùi','Thân','Dậu','Tuất','Hợi'];
 function yearName(y){return CAN[(y+6)%10]+' '+CHI[(y+8)%12];}
 
-// ════════════════════════════════════════════════════════
-// CLOCK & DATES
-// ════════════════════════════════════════════════════════
 function tick(){
   const n=new Date();
   document.getElementById('clock').textContent=n.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit',hour12:false});
   document.getElementById('date-solar').textContent=n.toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   const lu=solar2Lunar(n.getDate(),n.getMonth()+1,n.getFullYear());
-  const leapStr=lu.leap?' (nhuận)':'';
-  document.getElementById('date-lunar').textContent=`🌙 ${lu.day} tháng ${lu.month}${leapStr} năm ${yearName(lu.year)}`;
+  document.getElementById('date-lunar').textContent=`🌙 ${lu.day} tháng ${lu.month}${lu.leap?' (nhuận)':''} năm ${yearName(lu.year)}`;
 }
-setInterval(tick,1000); tick();
+setInterval(tick,1000);tick();
 
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════
 // WEATHER
-// ════════════════════════════════════════════════════════
-const WMO={
-  0:['☀️','Trời quang'],1:['🌤','Ít mây'],2:['⛅','Có mây'],3:['☁️','Nhiều mây'],
-  45:['🌫','Sương mù'],48:['🌫','Sương giá'],
-  51:['🌦','Mưa phùn nhẹ'],53:['🌦','Mưa phùn'],55:['🌧','Mưa phùn nặng'],
-  61:['🌧','Mưa nhẹ'],63:['🌧','Có mưa'],65:['🌧','Mưa to'],
-  71:['❄️','Tuyết nhẹ'],73:['❄️','Có tuyết'],75:['❄️','Tuyết dày'],
-  80:['🌦','Mưa rào nhẹ'],81:['🌦','Mưa rào'],82:['⛈','Mưa rào nặng'],
-  95:['⛈','Giông bão'],96:['⛈','Giông kèm mưa đá'],99:['⛈','Giông lớn'],
-};
-function wmoInfo(code){
-  const keys=Object.keys(WMO).map(Number).sort((a,b)=>b-a);
-  for(const k of keys){if(code>=k) return WMO[k]||['🌡','Không rõ'];}
-  return ['🌡','Không rõ'];
-}
+// ════════════════════════════════════════════
+const WMO={0:['☀️','Trời quang'],1:['🌤','Ít mây'],2:['⛅','Có mây'],3:['☁️','Nhiều mây'],45:['🌫','Sương mù'],48:['🌫','Sương giá'],51:['🌦','Mưa phùn nhẹ'],53:['🌦','Mưa phùn'],55:['🌧','Mưa phùn nặng'],61:['🌧','Mưa nhẹ'],63:['🌧','Có mưa'],65:['🌧','Mưa to'],80:['🌦','Mưa rào nhẹ'],81:['🌦','Mưa rào'],82:['⛈','Mưa rào nặng'],95:['⛈','Giông bão'],96:['⛈','Giông kèm mưa đá'],99:['⛈','Giông lớn']};
+function wmoInfo(c){const ks=Object.keys(WMO).map(Number).sort((a,b)=>b-a);for(const k of ks)if(c>=k)return WMO[k];return['🌡','Không rõ'];}
 async function fetchWeather(){
   document.getElementById('weatherLoading').style.display='flex';
   document.getElementById('weatherBody').style.display='none';
   document.getElementById('weatherExtra').style.display='none';
   document.getElementById('weatherRetry').style.display='none';
-  if(!navigator.geolocation){
-    document.getElementById('weatherLoading').innerHTML='<span>📍</span> Không có GPS';
-    document.getElementById('weatherRetry').style.display='block'; return;
-  }
+  if(!navigator.geolocation){document.getElementById('weatherLoading').innerHTML='<span>📍</span> Không có GPS';document.getElementById('weatherRetry').style.display='block';return;}
   navigator.geolocation.getCurrentPosition(async pos=>{
-    const {latitude:lat,longitude:lon}=pos.coords;
+    const{latitude:lat,longitude:lon}=pos.coords;
     try{
-      const [meteoRes,geoRes]=await Promise.all([
+      const[mr,gr]=await Promise.all([
         fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,weather_code,relative_humidity_2m,wind_speed_10m&wind_speed_unit=kmh&timezone=auto`),
         fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
       ]);
-      const meteo=await meteoRes.json();
-      const geo=await geoRes.json();
-      const cur=meteo.current;
-      const [icon,desc]=wmoInfo(cur.weather_code);
-      const city=geo.address?.city||geo.address?.town||geo.address?.county||geo.address?.state||'Vị trí hiện tại';
-      document.getElementById('wIcon').textContent=icon;
-      document.getElementById('wTemp').textContent=Math.round(cur.temperature_2m)+'°C';
+      const m=await mr.json(),g=await gr.json(),c=m.current;
+      const[ico,desc]=wmoInfo(c.weather_code);
+      const city=g.address?.city||g.address?.town||g.address?.county||g.address?.state||'Vị trí hiện tại';
+      document.getElementById('wIcon').textContent=ico;
+      document.getElementById('wTemp').textContent=Math.round(c.temperature_2m)+'°C';
       document.getElementById('wDesc').textContent=desc;
       document.getElementById('wCity').textContent='📍 '+city;
-      document.getElementById('wHumidity').textContent=cur.relative_humidity_2m;
-      document.getElementById('wWind').textContent=Math.round(cur.wind_speed_10m);
-      document.getElementById('wFeels').textContent=Math.round(cur.apparent_temperature);
+      document.getElementById('wHumidity').textContent=c.relative_humidity_2m;
+      document.getElementById('wWind').textContent=Math.round(c.wind_speed_10m);
+      document.getElementById('wFeels').textContent=Math.round(c.apparent_temperature);
       document.getElementById('weatherLoading').style.display='none';
       document.getElementById('weatherBody').style.display='flex';
       document.getElementById('weatherExtra').style.display='flex';
       document.getElementById('weatherRetry').style.display='block';
-    }catch(e){
-      document.getElementById('weatherLoading').innerHTML='<span>⚠️</span> Không lấy được thời tiết';
-      document.getElementById('weatherRetry').style.display='block';
-    }
-  },()=>{
-    document.getElementById('weatherLoading').innerHTML='<span>📍</span> Từ chối vị trí';
-    document.getElementById('weatherRetry').style.display='block';
-  },{timeout:8000});
+    }catch(e){document.getElementById('weatherLoading').innerHTML='<span>⚠️</span> Không lấy được';document.getElementById('weatherRetry').style.display='block';}
+  },()=>{document.getElementById('weatherLoading').innerHTML='<span>📍</span> Từ chối vị trí';document.getElementById('weatherRetry').style.display='block';},{timeout:8000});
 }
 fetchWeather();
 
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════
 // DATA
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════
 const DEFAULTS={
-  groups:[
-    {id:'g1',name:'Web & Tools',locked:false},
-    {id:'g2',name:'Tài liệu & File',locked:false},
-    {id:'g_priv',name:'Riêng tư',locked:true},
-  ],
+  groups:[{id:'g1',name:'Web & Tools',locked:false},{id:'g2',name:'Tài liệu & File',locked:false},{id:'g_priv',name:'Riêng tư',locked:true}],
   shortcuts:[
-    {id:'s1',name:'Google',   url:'https://google.com',      type:'web',  group:'g1'},
-    {id:'s2',name:'YouTube',  url:'https://youtube.com',     type:'web',  group:'g1'},
-    {id:'s3',name:'GitHub',   url:'https://github.com',      type:'web',  group:'g1'},
-    {id:'s4',name:'ChatGPT',  url:'https://chat.openai.com', type:'web',  group:'g1'},
-    {id:'s5',name:'Notion',   url:'https://notion.so',       type:'web',  group:'g1'},
-    {id:'s6',name:'Ví dụ riêng tư',url:'https://example.com',type:'web', group:'g_priv'},
+    {id:'s1',name:'Google',   url:'https://google.com',      type:'web', group:'g1'},
+    {id:'s2',name:'YouTube',  url:'https://youtube.com',     type:'web', group:'g1'},
+    {id:'s3',name:'GitHub',   url:'https://github.com',      type:'web', group:'g1'},
+    {id:'s4',name:'ChatGPT',  url:'https://chat.openai.com', type:'web', group:'g1'},
+    {id:'s5',name:'Notion',   url:'https://notion.so',       type:'web', group:'g1'},
+    {id:'s6',name:'Ví dụ riêng tư',url:'https://example.com',type:'web',group:'g_priv'},
   ]
 };
 let data=JSON.parse(localStorage.getItem('launcher_v3')||'null')||DEFAULTS;
 let editMode=null,currentType='web',filterQ='';
-const unlockedGroups=new Set(); // session unlock
+const unlockedGroups=new Set();
 function save(){localStorage.setItem('launcher_v3',JSON.stringify(data));}
 function genId(){return '_'+Math.random().toString(36).slice(2,8);}
 
-// ════════════════════════════════════════════════════════
-// PIN / PASSCODE
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════
+// PIN
+// ════════════════════════════════════════════
 const HASH_KEY='launcher_pin_hash';
-let pinBuffer='';
-let pinMode=null; // 'unlock-GROUP_ID' | 'set-step1' | 'set-step2' | 'change-verify'
-let pinStep2Temp='';
-let pinTarget=null; // group id or callback
+let pinBuffer='',pinMode=null,pinStep2Temp='',pinTarget=null;
+async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function checkPin(p){const h=localStorage.getItem(HASH_KEY);if(!h)return true;return(await sha256(p))===h;}
+async function setPin(p){localStorage.setItem(HASH_KEY,await sha256(p));}
+function hasPin(){return!!localStorage.getItem(HASH_KEY);}
 
-async function sha256(str){
-  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-async function checkPin(pin){
-  const stored=localStorage.getItem(HASH_KEY);
-  if(!stored) return true; // no pin set
-  const h=await sha256(pin);
-  return h===stored;
-}
-async function setPin(pin){
-  const h=await sha256(pin);
-  localStorage.setItem(HASH_KEY,h);
-}
-function hasPin(){return !!localStorage.getItem(HASH_KEY);}
-
-// Build PIN pad
 function buildPinPad(){
-  const pad=document.getElementById('pinPad');
-  pad.innerHTML='';
-  const keys=[...Array(9)].map((_,i)=>String(i+1));
-  keys.push('','0','⌫');
-  keys.forEach(k=>{
+  const pad=document.getElementById('pinPad');pad.innerHTML='';
+  [...Array(9)].map((_,i)=>String(i+1)).concat(['','0','⌫']).forEach(k=>{
     const btn=document.createElement('div');
     btn.className='pin-key'+(k===''?' empty':k==='⌫'?' backspace':'');
     btn.textContent=k;
-    if(k!==''){
-      btn.addEventListener('click',()=>{
-        if(k==='⌫') pinInput(null);
-        else pinInput(k);
-      });
-    }
+    if(k!=='')btn.addEventListener('click',()=>k==='⌫'?pinInput(null):pinInput(k));
     pad.appendChild(btn);
   });
 }
-
 function updatePinDots(shake=false){
-  const dots=document.getElementById('pinDisplay');
-  dots.innerHTML='';
-  for(let i=0;i<6;i++){
-    const d=document.createElement('div');
-    d.className='pin-dot'+(i<pinBuffer.length?' filled':'')+(shake?' error':'');
-    dots.appendChild(d);
-  }
+  const dots=document.getElementById('pinDisplay');dots.innerHTML='';
+  for(let i=0;i<6;i++){const d=document.createElement('div');d.className='pin-dot'+(i<pinBuffer.length?' filled':'')+(shake?' error':'');dots.appendChild(d);}
 }
-
 function pinInput(digit){
   document.getElementById('pinError').textContent='';
-  if(digit===null){
-    pinBuffer=pinBuffer.slice(0,-1);
-    updatePinDots();
-    return;
-  }
-  if(pinBuffer.length>=6) return;
-  pinBuffer+=digit;
-  updatePinDots();
-  if(pinBuffer.length===6) setTimeout(submitPin,120);
+  if(digit===null){pinBuffer=pinBuffer.slice(0,-1);updatePinDots();return;}
+  if(pinBuffer.length>=6)return;
+  pinBuffer+=digit;updatePinDots();
+  if(pinBuffer.length===6)setTimeout(submitPin,120);
 }
-
 async function submitPin(){
-  const pin=pinBuffer;
-  pinBuffer='';
-
+  const pin=pinBuffer;pinBuffer='';
   if(pinMode==='unlock'){
-    const ok=await checkPin(pin);
-    if(ok){
-      unlockedGroups.add(pinTarget);
-      closePinModal();
-      render();
-      toast('🔓 Đã mở khoá nhóm');
-    }else{
-      updatePinDots(true);
-      document.getElementById('pinError').textContent='Passcode không đúng. Thử lại.';
-      setTimeout(()=>updatePinDots(false),600);
-    }
-
+    if(await checkPin(pin)){unlockedGroups.add(pinTarget);closePinModal();render();toast('🔓 Đã mở khoá nhóm');}
+    else{updatePinDots(true);document.getElementById('pinError').textContent='Passcode không đúng.';setTimeout(()=>updatePinDots(false),600);}
   }else if(pinMode==='set-step1'){
     if(pin.length<4){document.getElementById('pinError').textContent='Tối thiểu 4 chữ số';updatePinDots();return;}
-    pinStep2Temp=pin;
-    pinMode='set-step2';
+    pinStep2Temp=pin;pinMode='set-step2';
     document.getElementById('pinTitle').textContent='Xác nhận passcode';
     document.getElementById('pinSub').textContent='Nhập lại passcode vừa tạo';
-    document.getElementById('pinHint').textContent='';
-    updatePinDots();
-
+    document.getElementById('pinHint').textContent='';updatePinDots();
   }else if(pinMode==='set-step2'){
-    if(pin===pinStep2Temp){
-      await setPin(pin);
-      closePinModal();
-      toast('✅ Đã tạo passcode');
-    }else{
-      pinMode='set-step1';pinStep2Temp='';
-      document.getElementById('pinTitle').textContent='Tạo passcode mới';
-      document.getElementById('pinSub').textContent='Nhập passcode 4–6 chữ số';
-      document.getElementById('pinError').textContent='Không khớp. Thử lại từ đầu.';
-      updatePinDots();
-    }
-
+    if(pin===pinStep2Temp){await setPin(pin);closePinModal();toast('✅ Đã tạo passcode');}
+    else{pinMode='set-step1';pinStep2Temp='';document.getElementById('pinTitle').textContent='Tạo passcode mới';document.getElementById('pinSub').textContent='Nhập passcode 4–6 chữ số';document.getElementById('pinError').textContent='Không khớp. Thử lại.';updatePinDots();}
   }else if(pinMode==='change-verify'){
-    const ok=await checkPin(pin);
-    if(ok){
-      pinMode='set-step1'; pinStep2Temp='';
-      document.getElementById('pinTitle').textContent='Tạo passcode mới';
-      document.getElementById('pinSub').textContent='Nhập passcode mới (4–6 chữ số)';
-      document.getElementById('pinHint').textContent='';
-      updatePinDots();
-    }else{
-      updatePinDots(true);
-      document.getElementById('pinError').textContent='Passcode cũ không đúng.';
-      setTimeout(()=>updatePinDots(false),600);
-    }
+    if(await checkPin(pin)){pinMode='set-step1';pinStep2Temp='';document.getElementById('pinTitle').textContent='Tạo passcode mới';document.getElementById('pinSub').textContent='Nhập passcode mới (4–6 chữ số)';document.getElementById('pinHint').textContent='';updatePinDots();}
+    else{updatePinDots(true);document.getElementById('pinError').textContent='Passcode cũ không đúng.';setTimeout(()=>updatePinDots(false),600);}
   }
 }
 
+let _pendingGroup=null;
 function openPinModal(mode,groupId){
-  pinBuffer=''; pinMode=mode; pinTarget=groupId||null;
-  buildPinPad(); updatePinDots();
-  document.getElementById('pinError').textContent='';
-  if(mode==='unlock'){
-    const g=data.groups.find(x=>x.id===groupId);
-    document.getElementById('pinTitle').textContent='Nhập passcode';
-    document.getElementById('pinSub').textContent=`Nhóm "${g?.name||''}" được bảo vệ`;
-    document.getElementById('pinHint').textContent='';
-  }else if(mode==='set-step1'){
-    document.getElementById('pinTitle').textContent='Tạo passcode';
-    document.getElementById('pinSub').textContent='Nhập passcode mới (4–6 chữ số)';
-    document.getElementById('pinHint').textContent='Passcode dùng để khoá các nhóm riêng tư.';
-  }else if(mode==='change-verify'){
-    document.getElementById('pinTitle').textContent='Xác minh passcode cũ';
-    document.getElementById('pinSub').textContent='Nhập passcode hiện tại để đổi';
-    document.getElementById('pinHint').textContent='';
-  }
+  pinBuffer='';pinMode=mode;pinTarget=groupId||null;
+  buildPinPad();updatePinDots();document.getElementById('pinError').textContent='';
+  const titles={unlock:['Nhập passcode','Nhóm riêng tư'],'set-step1':['Tạo passcode','Nhập passcode mới (4–6 chữ số)'],'change-verify':['Xác minh passcode cũ','Nhập passcode hiện tại']};
+  const[t,s]=titles[mode]||['Passcode',''];
+  document.getElementById('pinTitle').textContent=t;
+  document.getElementById('pinSub').textContent=mode==='unlock'?(()=>{const g=data.groups.find(x=>x.id===groupId);return `Nhóm "${g?.name||''}"`;})():s;
+  document.getElementById('pinHint').textContent=mode==='set-step1'?'Dùng để khoá các nhóm riêng tư':'';
   document.getElementById('pinOverlay').classList.add('show');
 }
 function closePinModal(){
   document.getElementById('pinOverlay').classList.remove('show');
-  pinBuffer=''; pinMode=null; pinTarget=null;
+  pinBuffer='';pinMode=null;pinTarget=null;
+  if(_pendingGroup){const pg=_pendingGroup;_pendingGroup=null;data.groups.push({id:genId(),name:pg.name,locked:pg.locked});save();render();toast('Đã thêm nhóm có khoá');}
 }
-function closePinOverlay(e){if(e.target===document.getElementById('pinOverlay')) closePinModal();}
+function closePinOverlay(e){if(e.target===document.getElementById('pinOverlay'))closePinModal();}
+function openChangePinModal(){hasPin()?openPinModal('change-verify'):openPinModal('set-step1');}
 
-function openChangePinModal(){
-  if(hasPin()) openPinModal('change-verify');
-  else openPinModal('set-step1');
-}
-
-// Keyboard for PIN
 document.addEventListener('keydown',e=>{
-  if(!document.getElementById('pinOverlay').classList.contains('show')) return;
-  if(e.key>='0'&&e.key<='9') pinInput(e.key);
-  if(e.key==='Backspace') pinInput(null);
-  if(e.key==='Escape') closePinModal();
+  if(!document.getElementById('pinOverlay').classList.contains('show'))return;
+  if(e.key>='0'&&e.key<='9')pinInput(e.key);
+  if(e.key==='Backspace')pinInput(null);
+  if(e.key==='Escape')closePinModal();
 });
 
-// ════════════════════════════════════════════════════════
-// RENDER NAV
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════
+const TYPE_META={
+  web: {label:'Web',  urlLabel:'URL website',         placeholder:'https://example.com',         hint:'Nhập địa chỉ website bắt đầu bằng https://'},
+  file:{label:'File', urlLabel:'Đường dẫn file',      placeholder:'file:///C:/path/to/file.pdf',  hint:'Windows: file:///C:/Users/Name/file.pdf\nMac: file:///Users/Name/file.pdf'},
+  dir: {label:'Folder',urlLabel:'Đường dẫn thư mục', placeholder:'file:///C:/Users/Name/Docs',   hint:'Windows: file:///C:/Users/Name/Documents\nMac: file:///Users/Name/Documents'},
+  app: {label:'App',  urlLabel:'URI / Đường dẫn app',placeholder:'ms-settings: hoặc ms-excel:',  hint:'Windows URI: ms-settings:  ms-excel:  ms-word:  ms-powerpoint:\nHoặc file:///C:/path/to/app.exe\nBrowser sẽ hỏi xác nhận trước khi mở.'},
+};
+
 function renderNav(){
-  const nav=document.getElementById('navGroups');
-  nav.innerHTML='';
+  const nav=document.getElementById('navGroups');nav.innerHTML='';
   data.groups.forEach(g=>{
-    const c=data.shortcuts.filter(s=>s.group===g.id).length;
-    const d=document.createElement('div');
+    const c=data.shortcuts.filter(s=>s.group===g.id).length,d=document.createElement('div');
     d.className='nav-item';
     d.innerHTML=`<span>${esc(g.name)}${g.locked?'<span class="lock-ico"> 🔒</span>':''}</span><span class="nav-count">${c}</span>`;
     d.onclick=()=>document.getElementById(g.id)?.scrollIntoView({behavior:'smooth',block:'start'});
@@ -653,226 +618,127 @@ function renderNav(){
   });
 }
 
-// ════════════════════════════════════════════════════════
-// RENDER MAIN
-// ════════════════════════════════════════════════════════
-const TYPE_META={
-  web: {label:'Web',  urlLabel:'URL website',        placeholder:'https://example.com',        hint:'Nhập địa chỉ website bắt đầu bằng https://'},
-  file:{label:'File', urlLabel:'Đường dẫn file',     placeholder:'file:///C:/path/to/file.pdf', hint:'Windows: file:///C:/Users/Name/file.pdf\nMac: file:///Users/Name/file.pdf'},
-  dir: {label:'Folder',urlLabel:'Đường dẫn thư mục',placeholder:'file:///C:/Users/Name/Docs',  hint:'Windows: file:///C:/Users/Name/Documents\nMac: file:///Users/Name/Documents'},
-  app: {label:'App',  urlLabel:'URI / Đường dẫn app',placeholder:'ms-settings: hoặc ms-excel:',hint:'Windows URI: ms-settings:  ms-excel:  ms-word:  ms-powerpoint:\nHoặc file:///C:/path/to/app.exe\nBrowser sẽ hỏi xác nhận trước khi mở.'},
-};
-
 function render(){
   const main=document.getElementById('mainContent');
   const q=filterQ.toLowerCase();
-  main.innerHTML='';
-  let total=0;
-
-  if(!data.groups.length){
-    main.innerHTML=`<div class="empty-main"><div class="et">Bắt đầu nào!</div><p>Thêm nhóm và shortcut để<br>tổ chức workspace của bạn.</p></div>`;
-    renderNav(); return;
-  }
+  main.innerHTML='';let total=0;
+  if(!data.groups.length){main.innerHTML=`<div class="empty-main"><div class="et">Bắt đầu nào!</div><p>Thêm nhóm và shortcut để<br>tổ chức workspace của bạn.</p></div>`;renderNav();return;}
 
   data.groups.forEach((g,gi)=>{
-    const scs=data.shortcuts.filter(s=>
-      s.group===g.id&&(!q||s.name.toLowerCase().includes(q)||s.url.toLowerCase().includes(q))
-    );
-    if(q&&!scs.length) return;
+    const scs=data.shortcuts.filter(s=>s.group===g.id&&(!q||s.name.toLowerCase().includes(q)||s.url.toLowerCase().includes(q)));
+    if(q&&!scs.length)return;
     total+=scs.length;
     const isLocked=g.locked&&!unlockedGroups.has(g.id);
-
     const sec=document.createElement('section');
-    sec.className='group-section';
-    sec.id=g.id;
-    sec.style.animationDelay=`${gi*.06}s`;
-
+    sec.className='group-section';sec.id=g.id;sec.style.animationDelay=`${gi*.06}s`;
     const lockBadge=g.locked?`<span class="group-lock-badge">${isLocked?'🔒 Đã khoá':'🔓 Đã mở'}</span>`:'';
-    const unlockBtn=g.locked&&isLocked?`<button class="grp-btn unlock-btn" onclick="openLockGroup('${g.id}')">🔓 Mở khoá</button>`:'';
-    const lockToggleBtn=g.locked&&!isLocked?`<button class="grp-btn" onclick="relockGroup('${g.id}')">🔒 Khoá lại</button>`:'';
-    const addBtn=`<button class="grp-btn" onclick="openModal('shortcut','','${g.id}')">+ Thêm</button>`;
-    const editBtn=`<button class="grp-btn" onclick="editGroup('${g.id}')">Sửa</button>`;
-    const delBtn=`<button class="grp-btn danger" onclick="deleteGroup('${g.id}')">Xóa</button>`;
-
     sec.innerHTML=`
       <div class="group-top">
         <div class="group-name">${esc(g.name)}${lockBadge}</div>
         <div class="group-meta">
           <span class="group-count">${scs.length} shortcut</span>
-          ${unlockBtn}${lockToggleBtn}${addBtn}${editBtn}${delBtn}
+          ${g.locked&&isLocked?`<button class="grp-btn unlock-btn" onclick="openLockGroup('${g.id}')">🔓 Mở khoá</button>`:''}
+          ${g.locked&&!isLocked?`<button class="grp-btn" onclick="relockGroup('${g.id}')">🔒 Khoá lại</button>`:''}
+          <button class="grp-btn" onclick="openModal('shortcut','','${g.id}')">+ Thêm</button>
+          <button class="grp-btn" onclick="editGroup('${g.id}')">Sửa</button>
+          <button class="grp-btn danger" onclick="deleteGroup('${g.id}')">Xóa</button>
         </div>
       </div>
       <div class="${isLocked?'locked-wrap':''}">
-        <div class="shortcut-list${isLocked?' locked-blur':''}" id="list-${g.id}"></div>
+        <div class="shortcut-chips${isLocked?' locked-blur':''}" id="chips-${g.id}"></div>
         ${isLocked?`<div class="locked-overlay"><div class="lock-icon">🔒</div><p>Nhóm riêng tư</p><button onclick="openLockGroup('${g.id}')">Nhập passcode</button></div>`:''}
       </div>`;
-
     main.appendChild(sec);
-    const list=sec.querySelector(`#list-${g.id}`);
-
-    if(!scs.length){
-      list.innerHTML=`<div class="empty-group">Chưa có shortcut — nhấn "+ Thêm"</div>`;
-    }else{
-      scs.forEach(sc=>{
-        const row=document.createElement('div');
-        row.className='sc-row';
-        row.innerHTML=`
-          <div class="sc-left">
-            <div class="sc-dot dot-${sc.type}"></div>
-            <div style="min-width:0">
-              <div class="sc-name">${esc(sc.name)}</div>
-              <div class="sc-url">${esc(sc.url)}</div>
-            </div>
-          </div>
-          <span class="sc-badge badge-${sc.type}">${TYPE_META[sc.type]?.label||sc.type}</span>
-          <div class="sc-actions">
-            <button class="sc-act" onclick="editSc('${sc.id}');event.stopPropagation()">✏️</button>
-            <button class="sc-act del" onclick="deleteSc('${sc.id}');event.stopPropagation()">✕</button>
-          </div>`;
-        if(!isLocked) row.addEventListener('click',()=>launch(sc));
-        list.appendChild(row);
-      });
-    }
+    const chips=sec.querySelector(`#chips-${g.id}`);
+    if(!scs.length){chips.innerHTML=`<div class="empty-group">Chưa có shortcut — nhấn "+ Thêm"</div>`;}
+    else scs.forEach((sc,si)=>{
+      const chip=document.createElement('div');
+      chip.className='sc-chip';chip.style.animationDelay=`${si*.03}s`;
+      chip.innerHTML=`
+        <div class="chip-dot dot-${sc.type}"></div>
+        <span class="chip-name">${esc(sc.name)}</span>
+        <span class="chip-badge badge-${sc.type}">${TYPE_META[sc.type]?.label||sc.type}</span>
+        <div class="chip-acts">
+          <button class="chip-act" onclick="editSc('${sc.id}');event.stopPropagation()" title="Sửa">✏️</button>
+          <button class="chip-act del" onclick="deleteSc('${sc.id}');event.stopPropagation()" title="Xóa">✕</button>
+        </div>`;
+      if(!isLocked)chip.addEventListener('click',()=>launch(sc));
+      chips.appendChild(chip);
+    });
   });
-
-  if(q&&total===0){
-    const nr=document.createElement('div');
-    nr.className='no-results show';
-    nr.textContent='Không tìm thấy kết quả nào.';
-    main.appendChild(nr);
-  }
+  if(q&&total===0){const nr=document.createElement('div');nr.className='no-results show';nr.textContent='Không tìm thấy kết quả nào.';main.appendChild(nr);}
   renderNav();
 }
 
-function launch(sc){
-  if(!sc.url) return;
-  if(sc.type==='app') window.location.href=sc.url;
-  else window.open(sc.url,'_blank');
-}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function launch(sc){if(!sc.url)return;sc.type==='app'?window.location.href=sc.url:window.open(sc.url,'_blank');}
 
 function openLockGroup(gid){
-  if(!hasPin()){
-    // No pin yet — set one first
-    openPinModal('set-step1');
-    pinTarget=gid; // will unlock after setting
-    // after pin set, mark group locked
-    return;
-  }
+  if(!hasPin()){_pendingGroup=null;pinTarget=gid;openPinModal('set-step1');return;}
   openPinModal('unlock',gid);
 }
-function relockGroup(gid){
-  unlockedGroups.delete(gid);
-  render();
-  toast('🔒 Đã khoá lại nhóm');
-}
+function relockGroup(gid){unlockedGroups.delete(gid);render();toast('🔒 Đã khoá lại nhóm');}
 
-// ════════════════════════════════════════════════════════
-// MODAL: ADD / EDIT
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════
+// MODAL
+// ════════════════════════════════════════════
 function openModal(type,editId='',groupPreset=''){
   const isGroup=type==='group';
   editMode=editId?{type,id:editId}:null;
-  if(!isGroup&&editId){const sc=data.shortcuts.find(s=>s.id===editId);currentType=sc?.type||'web';}
-  else if(!isGroup) currentType=(type==='shortcut')?'web':type;
-
+  if(!isGroup&&editId)currentType=data.shortcuts.find(s=>s.id===editId)?.type||'web';
+  else if(!isGroup)currentType=type==='shortcut'?'web':type;
   document.getElementById('formGroup').style.display=isGroup?'':'none';
   document.getElementById('formShortcut').style.display=isGroup?'none':'';
   document.getElementById('modalTitle').textContent=editId?(isGroup?'Sửa nhóm':'Sửa shortcut'):(isGroup?'Thêm nhóm mới':'Thêm shortcut');
   document.getElementById('modalSub').textContent='';
-
-  if(isGroup){
-    const g=editId?data.groups.find(x=>x.id===editId):null;
-    document.getElementById('groupName').value=g?.name||'';
-    document.getElementById('groupLocked').checked=g?.locked||false;
-  }else{
+  if(isGroup){const g=editId?data.groups.find(x=>x.id===editId):null;document.getElementById('groupName').value=g?.name||'';document.getElementById('groupLocked').checked=g?.locked||false;}
+  else{
     const sel=document.getElementById('scGroup');
     sel.innerHTML=data.groups.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('');
-    if(groupPreset) sel.value=groupPreset;
-    if(editId){
-      const sc=data.shortcuts.find(s=>s.id===editId);
-      if(sc){document.getElementById('scName').value=sc.name;document.getElementById('scUrl').value=sc.url;sel.value=sc.group;setType(sc.type,false);}
-    }else{
-      document.getElementById('scName').value='';document.getElementById('scUrl').value='';setType(currentType,false);
-    }
+    if(groupPreset)sel.value=groupPreset;
+    if(editId){const sc=data.shortcuts.find(s=>s.id===editId);if(sc){document.getElementById('scName').value=sc.name;document.getElementById('scUrl').value=sc.url;sel.value=sc.group;setType(sc.type,false);}}
+    else{document.getElementById('scName').value='';document.getElementById('scUrl').value='';setType(currentType,false);}
   }
   document.getElementById('overlay').classList.add('show');
 }
 function setType(t,clearUrl=true){
-  currentType=t;if(clearUrl) document.getElementById('scUrl').value='';
+  currentType=t;if(clearUrl)document.getElementById('scUrl').value='';
   const m=TYPE_META[t];
   document.getElementById('urlLabel').textContent=m.urlLabel;
   document.getElementById('scUrl').placeholder=m.placeholder;
   document.getElementById('urlHint').textContent=m.hint;
-  document.querySelectorAll('.type-tab').forEach(tab=>{tab.className='type-tab';if(tab.dataset.type===t) tab.classList.add(`t-${t}`);});
+  document.querySelectorAll('.type-tab').forEach(tab=>{tab.className='type-tab';if(tab.dataset.type===t)tab.classList.add(`t-${t}`);});
 }
 function closeModal(){document.getElementById('overlay').classList.remove('show');editMode=null;}
-function closeOverlay(e){if(e.target===document.getElementById('overlay')) closeModal();}
-
+function closeOverlay(e){if(e.target===document.getElementById('overlay'))closeModal();}
 function saveItem(){
   const isGroup=document.getElementById('formGroup').style.display!=='none';
   if(isGroup){
-    const name=document.getElementById('groupName').value.trim();
-    const locked=document.getElementById('groupLocked').checked;
-    if(!name) return toast('⚠ Nhập tên nhóm');
-    if(locked&&!hasPin()){
-      // Need to set PIN first
-      closeModal();
-      toast('Hãy tạo passcode trước khi khoá nhóm');
-      setTimeout(()=>{openPinModal('set-step1');},400);
-      // We'll add group after PIN set — store pending
-      window._pendingGroup={name,locked};
-      return;
-    }
+    const name=document.getElementById('groupName').value.trim(),locked=document.getElementById('groupLocked').checked;
+    if(!name)return toast('⚠ Nhập tên nhóm');
+    if(locked&&!hasPin()){closeModal();_pendingGroup={name,locked};setTimeout(()=>openPinModal('set-step1'),350);return;}
     if(editMode){const g=data.groups.find(x=>x.id===editMode.id);if(g){g.name=name;g.locked=locked;}toast('Đã cập nhật nhóm');}
     else{data.groups.push({id:genId(),name,locked});toast('Đã thêm nhóm');}
   }else{
-    const name=document.getElementById('scName').value.trim();
-    const url=document.getElementById('scUrl').value.trim();
-    const group=document.getElementById('scGroup').value;
-    if(!name) return toast('⚠ Nhập tên shortcut');
-    if(!url)  return toast('⚠ Nhập URL hoặc đường dẫn');
-    if(!group) return toast('⚠ Chọn nhóm');
-    if(editMode){const sc=data.shortcuts.find(s=>s.id===editMode.id);if(sc) Object.assign(sc,{name,url,group,type:currentType});toast('Đã cập nhật');}
+    const name=document.getElementById('scName').value.trim(),url=document.getElementById('scUrl').value.trim(),group=document.getElementById('scGroup').value;
+    if(!name)return toast('⚠ Nhập tên shortcut');
+    if(!url)return toast('⚠ Nhập URL hoặc đường dẫn');
+    if(!group)return toast('⚠ Chọn nhóm');
+    if(editMode){const sc=data.shortcuts.find(s=>s.id===editMode.id);if(sc)Object.assign(sc,{name,url,group,type:currentType});toast('Đã cập nhật');}
     else{data.shortcuts.push({id:genId(),name,url,group,type:currentType});toast('Đã thêm shortcut');}
   }
   save();render();closeModal();
 }
-
-// After PIN set, finalise pending group
-const _origSubmitPin=submitPin;
-window.submitPin=submitPin; // alias for keydown listener
-
-// Intercept: after 'set-step2' success, check pending group
-const _origClose=closePinModal;
-closePinModal=function(){
-  _origClose();
-  if(window._pendingGroup){
-    const pg=window._pendingGroup;
-    delete window._pendingGroup;
-    data.groups.push({id:genId(),name:pg.name,locked:pg.locked});
-    save();render();toast('Đã thêm nhóm có khoá');
-  }
-};
-
-function editSc(id){const sc=data.shortcuts.find(s=>s.id===id);if(sc) openModal(sc.type,id);}
+function editSc(id){const sc=data.shortcuts.find(s=>s.id===id);if(sc)openModal(sc.type,id);}
 function editGroup(id){openModal('group',id);}
 function deleteSc(id){data.shortcuts=data.shortcuts.filter(s=>s.id!==id);save();render();toast('Đã xóa');}
-function deleteGroup(id){
-  if(!confirm('Xóa nhóm và toàn bộ shortcut bên trong?')) return;
-  data.groups=data.groups.filter(g=>g.id!==id);
-  data.shortcuts=data.shortcuts.filter(s=>s.group!==id);
-  unlockedGroups.delete(id);
-  save();render();toast('Đã xóa nhóm');
-}
+function deleteGroup(id){if(!confirm('Xóa nhóm và toàn bộ shortcut bên trong?'))return;data.groups=data.groups.filter(g=>g.id!==id);data.shortcuts=data.shortcuts.filter(s=>s.group!==id);unlockedGroups.delete(id);save();render();toast('Đã xóa nhóm');}
 
-// ════════════════════════════════════════════════════════
-// UTILS
-// ════════════════════════════════════════════════════════
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Search + keyboard
 document.getElementById('searchInput').addEventListener('input',e=>{filterQ=e.target.value;render();});
 document.addEventListener('keydown',e=>{
-  if(document.getElementById('pinOverlay').classList.contains('show')) return;
-  if(e.key==='Escape') closeModal();
+  if(document.getElementById('pinOverlay').classList.contains('show'))return;
+  if(e.key==='Escape')closeModal();
   if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();document.getElementById('searchInput').focus();}
 });
 let _tt;
