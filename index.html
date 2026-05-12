@@ -652,18 +652,7 @@ if (openBtn && overlay) {
 }
 </script> 
 
-<script>
-function reload() {
- if (hash === correctHash) {
-  document.getElementById("lockedFooter").style.display = "block";
-  document.getElementById("loginOverlay").style.display = "none";
 
-  // ⏳ sau 5 phút → reload
-  setTimeout(() => {
-    location.reload();
-  }, 5 * 60 * 1000);
-} 
-</script>
 
  <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -683,47 +672,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script>
 // ===== AUTO-RELOAD với Toggle Control =====
-let reloadTimer = null;
-const RELOAD_DELAY = 5 * 60 * 1000; // 5 phút
+(function () {
+  const DELAY = 5 * 60 * 1000; // 5 phút
+  let timer = null;
+  let enabled = true; // khớp với checkbox mặc định (checked)
 
-function startReloadTimer() {
-  clearTimeout(reloadTimer);
-  reloadTimer = setTimeout(() => location.reload(), RELOAD_DELAY);
-}
-
-function stopReloadTimer() {
-  clearTimeout(reloadTimer);
-  reloadTimer = null;
-}
-
-function updateToggleLabel(checked) {
-  const label = document.getElementById("reloadLabel");
-  if (label) label.textContent = checked ? "⟳ Auto" : "⏸ Paused";
-}
-
-const reloadToggle = document.getElementById("reloadToggle");
-
-// Khởi động timer ban đầu (checkbox mặc định = checked)
-if (reloadToggle && reloadToggle.checked) startReloadTimer();
-
-// Lắng nghe thay đổi toggle
-reloadToggle && reloadToggle.addEventListener("change", () => {
-  if (reloadToggle.checked) {
-    startReloadTimer();
-  } else {
-    stopReloadTimer();
+  function arm() {
+    clearTimeout(timer);
+    timer = setTimeout(() => location.reload(), DELAY);
   }
-  updateToggleLabel(reloadToggle.checked);
-});
 
-// Reset timer khi user click (chỉ khi toggle đang ON)
-document.addEventListener("click", (e) => {
-  // Không reset nếu chính click vào toggle
-  if (e.target === reloadToggle || e.target.closest?.(".reload-toggle-wrap")) return;
-  if (reloadToggle && reloadToggle.checked) {
-    startReloadTimer();
+  function disarm() {
+    clearTimeout(timer);
+    timer = null;
   }
-});
+
+  const toggle   = document.getElementById("reloadToggle");
+  const labelEl  = document.getElementById("reloadLabel");
+  const wrapEl   = toggle ? toggle.closest(".reload-toggle-wrap") : null;
+
+  function syncLabel() {
+    if (labelEl) labelEl.textContent = enabled ? "⟳ Auto" : "⏸ Paused";
+  }
+
+  // ── Khởi động ──
+  arm();
+  syncLabel();
+
+  // ── Thay đổi toggle ──
+  if (toggle) {
+    toggle.addEventListener("change", function () {
+      enabled = this.checked;   // cập nhật flag TRƯỚC
+      syncLabel();
+      enabled ? arm() : disarm();
+    });
+  }
+
+  // ── Reset timer khi user có hoạt động (chỉ khi enabled) ──
+  document.addEventListener("click", function (e) {
+    if (!enabled) return;                                    // OFF → bỏ qua
+    if (wrapEl && wrapEl.contains(e.target)) return;        // click vào toggle → bỏ qua
+    arm();                                                   // click bình thường → reset timer
+  });
+})();
 </script>
 
 <script>
