@@ -331,7 +331,53 @@ color: #888;
     0 0 30px rgba(0,150,255,0.4);
 }
 
-  
+/* ===== RELOAD TOGGLE ===== */
+.reload-toggle-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: #888;
+  margin-left: 10px;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.reload-toggle-wrap input[type="checkbox"] { display: none; }
+
+.toggle-track {
+  width: 32px;
+  height: 17px;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.toggle-track::after {
+  content: "";
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: #555;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.reload-toggle-wrap input:checked + .toggle-track {
+  background: rgba(0,150,255,0.35);
+  border-color: rgba(0,150,255,0.5);
+}
+
+.reload-toggle-wrap input:checked + .toggle-track::after {
+  transform: translateX(15px);
+  background: #00c6ff;
+  box-shadow: 0 0 6px rgba(0,150,255,0.8);
+}
+
 </style>
 </head>
 <body>
@@ -340,7 +386,15 @@ color: #888;
 
   
 <div class="top-info">
-  <div> <span id="clock"></span> • <span id="temp">--°C</span> <span id="greeting" class="greeting-text"> </span> </div>
+  <div>
+    <span id="clock"></span> • <span id="temp">--°C</span>
+    <span id="greeting" class="greeting-text"> </span>
+    <label class="reload-toggle-wrap" title="Bật/tắt tự động reload trang">
+      <input type="checkbox" id="reloadToggle" checked>
+      <span class="toggle-track"></span>
+      <span id="reloadLabel">⟳ Auto</span>
+    </label>
+  </div>
   <div> <span id="date"> </span> </div>
  
 </div>
@@ -350,7 +404,17 @@ color: #888;
 
   <p>Trung tâm công cụ trí tuệ nhân tạo</p>
 
-  <!-- cho nay gan link AI cua SECTION HERO-->
+   <div>
+   <!-- cho nay gan link AI cua SECTION HERO-->
+    <a href="https://gemini.google.com/app/bc26bffdbcdad8d8?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all" target="_blank" class="pill-btn">Gemini</a>
+    <a href="https://chatgpt.com/" target="_blank" class="pill-btn">ChatGPT</a>
+    <a href="https://aistudio.google.com/u/1/generate-speech?model=gemini-3.1-flash-tts-preview" target="_blank" class="pill-btn">AI Studio</a>
+    <a href="https://copilot.microsoft.com/" target="_blank" class="pill-btn">Copilot</a>  
+    <a href="https://claude.ai/new" target="_blank" class="pill-btn">Claude</a> 
+    <a href="https://grok.com/" target="_blank" class="pill-btn">Grok</a> 
+    <a href=" https://kling.ai/" target="_blank" class="pill-btn">Kling</a> 
+    <a href="https://github.com/" target="_blank" class="pill-btn">Git</a>
+  </div>
   
 </div>
 
@@ -422,18 +486,7 @@ color: #888;
 <!-- FOOTER -->  
 <div class="footer">
   <div class="section-title-footer">
-    <div>
-   <!-- cho nay gan link AI cua SECTION HERO-->
-    <a href="https://gemini.google.com/app/bc26bffdbcdad8d8?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all" target="_blank" class="pill-btn">Gemini</a>
-    <a href="https://chatgpt.com/" target="_blank" class="pill-btn">ChatGPT</a>
-    <a href="https://aistudio.google.com/u/1/generate-speech?model=gemini-3.1-flash-tts-preview" target="_blank" class="pill-btn">AI Studio</a>
-    <a href="https://copilot.microsoft.com/" target="_blank" class="pill-btn">Copilot</a>  
-    <a href="https://claude.ai/new" target="_blank" class="pill-btn">Claude</a> 
-    <a href="https://grok.com/" target="_blank" class="pill-btn">Grok</a> 
-    <a href=" https://kling.ai/" target="_blank" class="pill-btn">Kling</a> 
-    <a href="https://github.com/" target="_blank" class="pill-btn">Git</a>
-  </div>
-    <div> </div>
+   
   <div class="footer-links">
     <a href="https://mail.google.com/mail/u/1/#inbox" target="_blank" class="pill-btn">Google Mail</a>
     <a href=https://mail.thesaigontimes.vn:2096/" target="_blank" class="pill-btn">SGT Mail</a>
@@ -629,12 +682,47 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>  
 
 <script>
-  let timer = setTimeout(() => location.reload(), 5 * 60 * 1000);
+// ===== AUTO-RELOAD với Toggle Control =====
+let reloadTimer = null;
+const RELOAD_DELAY = 5 * 60 * 1000; // 5 phút
 
-// reset khi user click
-document.addEventListener("click", () => {
-  clearTimeout(timer);
-  timer = setTimeout(() => location.reload(), 5 * 60 * 1000);
+function startReloadTimer() {
+  clearTimeout(reloadTimer);
+  reloadTimer = setTimeout(() => location.reload(), RELOAD_DELAY);
+}
+
+function stopReloadTimer() {
+  clearTimeout(reloadTimer);
+  reloadTimer = null;
+}
+
+function updateToggleLabel(checked) {
+  const label = document.getElementById("reloadLabel");
+  if (label) label.textContent = checked ? "⟳ Auto" : "⏸ Paused";
+}
+
+const reloadToggle = document.getElementById("reloadToggle");
+
+// Khởi động timer ban đầu (checkbox mặc định = checked)
+if (reloadToggle && reloadToggle.checked) startReloadTimer();
+
+// Lắng nghe thay đổi toggle
+reloadToggle && reloadToggle.addEventListener("change", () => {
+  if (reloadToggle.checked) {
+    startReloadTimer();
+  } else {
+    stopReloadTimer();
+  }
+  updateToggleLabel(reloadToggle.checked);
+});
+
+// Reset timer khi user click (chỉ khi toggle đang ON)
+document.addEventListener("click", (e) => {
+  // Không reset nếu chính click vào toggle
+  if (e.target === reloadToggle || e.target.closest?.(".reload-toggle-wrap")) return;
+  if (reloadToggle && reloadToggle.checked) {
+    startReloadTimer();
+  }
 });
 </script>
 
