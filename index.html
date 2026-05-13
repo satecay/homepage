@@ -378,6 +378,21 @@ color: #888;
   box-shadow: 0 0 6px rgba(0,150,255,0.8);
 }
 
+/* ===== HERO LOCK PLACEHOLDER ===== */
+.hero-lock-placeholder {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 8px 20px;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.04);
+  border: 1px dashed rgba(255,255,255,0.15);
+  color: #555;
+  font-size: 13px;
+  font-family: 'Space Mono', monospace;
+}
+
 </style>
 </head>
 <body>
@@ -404,17 +419,19 @@ color: #888;
 
   <p>Trung tâm công cụ trí tuệ nhân tạo</p>
 
-   <div>
-   <!-- cho nay gan link AI cua SECTION HERO-->
+  <!-- HERO LINKS — bảo vệ bởi passcode -->
+  <div id="lockedHero" style="display:none;">
     <a href="https://gemini.google.com/app/bc26bffdbcdad8d8?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all" target="_blank" class="pill-btn">Gemini</a>
     <a href="https://chatgpt.com/" target="_blank" class="pill-btn">ChatGPT</a>
     <a href="https://aistudio.google.com/u/1/generate-speech?model=gemini-3.1-flash-tts-preview" target="_blank" class="pill-btn">AI Studio</a>
-    <a href="https://copilot.microsoft.com/" target="_blank" class="pill-btn">Copilot</a>  
-    <a href="https://claude.ai/new" target="_blank" class="pill-btn">Claude</a> 
-    <a href="https://grok.com/" target="_blank" class="pill-btn">Grok</a> 
-    <a href=" https://kling.ai/" target="_blank" class="pill-btn">Kling</a> 
+    <a href="https://copilot.microsoft.com/" target="_blank" class="pill-btn">Copilot</a>
+    <a href="https://claude.ai/new" target="_blank" class="pill-btn">Claude</a>
+    <a href="https://grok.com/" target="_blank" class="pill-btn">Grok</a>
+    <a href="https://kling.ai/" target="_blank" class="pill-btn">Kling</a>
     <a href="https://github.com/" target="_blank" class="pill-btn">Git</a>
   </div>
+
+  <div id="heroLockPlaceholder" style="display:none;"></div>
   
 </div>
 
@@ -588,6 +605,10 @@ async function checkPass() {
     // ✅ hiện footer
     document.getElementById("lockedFooter").style.display = "block";
 
+    // ✅ hiện hero links + ẩn placeholder
+    document.getElementById("lockedHero").style.display = "block";
+    document.getElementById("heroLockPlaceholder").style.display = "none";
+
     // ✅ ẨN login box
     document.getElementById("loginBox").style.display = "none";
      // 👉 đóng popup
@@ -659,6 +680,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // luôn ẩn footer khi load
   document.getElementById("lockedFooter").style.display = "none";
+
+  // luôn ẩn hero links, hiện placeholder khi load
+  document.getElementById("lockedHero").style.display = "none";
+  document.getElementById("heroLockPlaceholder").style.display = "inline-flex";
 
   // luôn ẩn overlay (chỉ mở khi click 🔑)
   document.getElementById("loginOverlay").style.display = "none";
