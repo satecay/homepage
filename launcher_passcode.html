@@ -306,13 +306,82 @@ textarea{resize:none;font-family:'DM Mono',monospace;font-size:.76rem;}
 /* Toast */
 .toast{position:fixed;bottom:36px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--bg);padding:7px 17px;border-radius:50px;font-size:.71rem;font-weight:500;opacity:0;transition:all .2s;z-index:999;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ═══ MOBILE TOPBAR ═══ */
+.mobile-topbar{
+  display:none;align-items:center;justify-content:space-between;
+  padding:10px 16px;background:var(--paper);border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:150;grid-column:1/-1;
+  transition:background .22s,border-color .22s;
+}
+body.has-bg .mobile-topbar{background:var(--glass-side);backdrop-filter:blur(16px);}
+.mobile-brand{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--ink);}
+.hamburger{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 11px;cursor:pointer;color:var(--ink2);font-size:1rem;line-height:1;transition:all .15s;}
+.hamburger:hover{background:var(--hover);color:var(--ink);}
+.sidebar-mask{display:none;position:fixed;inset:0;z-index:290;background:rgba(0,0,0,.4);backdrop-filter:blur(3px);}
+.sidebar-mask.show{display:block;}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .shell{grid-template-columns:1fr;grid-template-rows:auto 1fr auto;}
+  .mobile-topbar{display:flex;grid-row:1;}
+  main{grid-column:1!important;grid-row:2!important;padding:18px 14px 16px;}
+  .app-footer{grid-column:1!important;grid-row:3!important;}
+  aside{
+    position:fixed!important;top:0;left:0;bottom:0;
+    width:min(280px,85vw);height:100vh!important;
+    transform:translateX(-110%);
+    transition:transform .26s cubic-bezier(.25,.46,.45,.94),box-shadow .26s;
+    z-index:300;box-shadow:none;
+    grid-row:unset!important;grid-column:unset!important;
+  }
+  aside.sidebar-open{transform:translateX(0);box-shadow:4px 0 28px rgba(0,0,0,.25);}
+  /* Omnibar */
+  .omnibar-input{font-size:.84rem;padding:11px 42px 11px 36px;}
+  .omnibar-icon{left:11px;font-size:.84rem;}
+  .omni-engines{display:none;}
+  .omnibar-hint{font-size:.68rem;}
+  /* Groups */
+  .group-section{margin-bottom:20px;padding-left:10px;}
+  .group-top{flex-wrap:wrap;gap:5px;}
+  .group-meta{gap:3px;}
+  .group-name{font-size:1.15rem;}
+  .grp-btn{font-size:.6rem;padding:2px 6px;}
+  /* Chips */
+  .chip-name{max-width:120px;}
+  .chip-badge{display:none;}
+  /* Notes */
+  .note-card,.note-add-btn{width:calc(50vw - 22px);min-height:105px;}
+  /* Modal full-width on small screens */
+  .modal{max-width:calc(100vw - 24px)!important;padding:20px 18px;margin:0 12px;}
+  .overlay{align-items:flex-end;padding-bottom:0;}
+  .overlay .modal{border-bottom-left-radius:0;border-bottom-right-radius:0;max-width:100vw!important;margin:0;border-left:none;border-right:none;border-bottom:none;animation:slideUpMobile .22s ease;}
+  @keyframes slideUpMobile{from{transform:translateY(100%);}to{transform:none;}}
+  .pin-modal{max-width:100vw!important;}
+  /* Footer smaller */
+  .app-footer{font-size:.54rem;gap:5px;flex-wrap:wrap;justify-content:center;}
+}
+@media(max-width:420px){
+  .note-card,.note-add-btn{width:calc(50vw - 18px);min-height:96px;}
+  .chip-name{max-width:100px;}
+}
 </style>
 </head>
 <body>
 <div id="bgLayer"><div id="bgDim"></div></div>
+<!-- Mobile sidebar mask -->
+<div class="sidebar-mask" id="sidebarMask" onclick="closeSidebar()"></div>
+
 <div class="shell">
+<!-- MOBILE TOPBAR (hidden on desktop) -->
+<div class="mobile-topbar" id="mobileTopbar">
+  <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+  <div class="mobile-brand">Launcher</div>
+  <button class="hamburger" onclick="toggleTheme()" id="mobileThemeBtn">☀️</button>
+</div>
+
 <!-- SIDEBAR -->
-<aside>
+<aside id="sidebar">
   <div class="brand">Launcher</div>
   <div class="tagline">Personal workspace</div>
   <button class="theme-toggle" onclick="toggleTheme()">
@@ -502,6 +571,11 @@ const APP_VER='5.1';
 function applyTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('launcher_theme',t);document.getElementById('themeLabel').textContent=t==='dark'?'Tối':'Sáng';document.getElementById('themeIco').textContent=t==='dark'?'🌙':'☀️';}
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
 applyTheme(localStorage.getItem('launcher_theme')||'light');
+// Sync mobile theme button on load
+document.addEventListener('DOMContentLoaded',()=>{
+  const btn=document.getElementById('mobileThemeBtn');
+  if(btn)btn.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'🌙':'☀️';
+});
 
 // ════ LUNAR
 const TZ=7;
@@ -872,7 +946,7 @@ function render(){
 
     const lockBadge=g.locked?`<span class="group-lock-badge">${isLocked?'🔒 Đã khoá':'🔓 Đã mở'}</span>`:'';
     sec.innerHTML=`
-      <div class="group-top" ${accent?`style="border-bottom-color:${hexToRgba(accent,0.35)}"`:''}>>
+      <div class="group-top" ${accent?`style="border-bottom-color:${hexToRgba(accent,0.35)}"`:''}>
         <div class="group-left">
           <span class="group-grip" title="Kéo để sắp xếp">⠿</span>
           <button class="collapse-btn">${g.collapsed?'▸':'▾'}</button>
@@ -1060,6 +1134,30 @@ document.addEventListener('keydown',e=>{
   if(e.key==='/'&&document.activeElement!==document.getElementById('omniInput')&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){e.preventDefault();document.getElementById('omniInput').focus();}
 });
 let _tt;function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2300);}
+
+// ════ MOBILE SIDEBAR
+function toggleSidebar(){
+  const s=document.getElementById('sidebar'),m=document.getElementById('sidebarMask');
+  const open=s.classList.toggle('sidebar-open');
+  m.classList.toggle('show',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('sidebar-open');
+  document.getElementById('sidebarMask').classList.remove('show');
+  document.body.style.overflow='';
+}
+// Update mobile theme button when theme changes
+const _origApplyTheme=applyTheme;
+applyTheme=function(t){
+  _origApplyTheme(t);
+  const btn=document.getElementById('mobileThemeBtn');
+  if(btn)btn.textContent=t==='dark'?'🌙':'☀️';
+};
+// Close sidebar on nav-group click on mobile
+document.getElementById('navGroups').addEventListener('click',()=>{
+  if(window.innerWidth<=768)closeSidebar();
+});
 
 updateSyncDot();
 render();
