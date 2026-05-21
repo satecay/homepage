@@ -108,11 +108,7 @@ main{padding:28px 40px 20px;min-height:100%;}
 /* ═══ GROUP SECTIONS WITH COLOR ═══ */
 .group-section{
   margin-bottom:28px;animation:fadeUp .28s ease both;
-  border-left:3px solid transparent;
-  padding-left:14px;
-  margin-left:-3px;
-  border-radius:0 10px 10px 0;
-  transition:border-color .3s,background .3s;
+  transition:border-color .3s,background .3s,padding .25s;
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 .group-section.dg-over{outline:2px solid var(--web-t);outline-offset:4px;border-radius:0 10px 10px 0;}
@@ -940,8 +936,10 @@ function render(){
 
     // ── Apply group color ──
     if(accent){
-      sec.style.borderLeftColor = accent;
-      sec.style.background = `linear-gradient(to right, ${hexToRgba(accent,0.07)} 0%, transparent 55%)`;
+      sec.style.borderLeft = `3px solid ${accent}`;
+      sec.style.paddingLeft = '13px';
+      sec.style.borderRadius = '0 10px 10px 0';
+      sec.style.background = `linear-gradient(to right, ${hexToRgba(accent,0.07)} 0%, transparent 60%)`;
     }
 
     const lockBadge=g.locked?`<span class="group-lock-badge">${isLocked?'🔒 Đã khoá':'🔓 Đã mở'}</span>`:'';
